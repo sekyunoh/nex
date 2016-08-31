@@ -1,0 +1,508 @@
+doctype html
+html(lang='en')
+  head
+    title It's nex
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    link(rel='stylesheet', href='http://fullcalendar.io/js/fullcalendar-2.3.1/fullcalendar.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.css')
+    //font-awesome
+    link(rel='stylesheet', href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css')
+
+    //script(src='https://code.jquery.com/jquery-latest.js')
+    script(src='https://code.jquery.com/jquery-latest.min.js')
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+    //script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+    script(type='text/javascript',src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js').
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.js")
+    //calendar
+    //script(src='https://code.jquery.com/jquery.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
+    //script(src='https://code.jquery.com/jquery-1.9.1.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js')
+    script(src='https:////cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.min.js')
+    //modal
+    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    //validate 기본 이거 없으면 fullCalendar is not function occurs..
+    script(src ="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js")
+
+
+
+    style.
+
+      body{width:93%; margin:0 auto}
+      #contentleft {width: 50%;float: left;}
+      #contentlefttop{overflow:auto; height:490px;border: 1px solid #bcbcbc;}
+      #contentleftbottom{margin-top:10%; float:left}
+
+      #contentright {width: 49.7%;float: right;}
+      #contentrighttop {border: 1px solid #bcbcbc; margin:0 auto;}
+
+      @import url(https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+      @import url(http://fonts.googleapis.com/css?family=Titillium+Web:300);
+      .fa-2x {
+      font-size: 2em;
+      }
+      .fa {
+      position: relative;
+      display: table-cell;
+      width: 60px;
+      height: 36px;
+      text-align: center;
+      vertical-align: middle;
+      font-size:20px;
+      }
+
+
+      .main-menu:hover,nav.main-menu.expanded {
+      width:250px;
+      overflow:visible;
+      }
+
+      .main-menu {
+      background:#fbfbfb;
+      border-right:1px solid #e5e5e5;
+      position:absolute;
+      top:0;
+      bottom:0;
+      height:100%;
+      right:0;
+      width:40px;
+      overflow:hidden;
+      -webkit-transition:width .05s linear;
+      transition:width .05s linear;
+      -webkit-transform:translateZ(0) scale(1,1);
+      z-index:1000;
+      }
+
+      .main-menu>ul {
+      margin:5px 0;
+      }
+
+      .main-menu li {
+      position:relative;
+      display:block;
+      width:250px;
+      }
+
+      .main-menu li>a {
+      position:relative;
+      display:table;
+      border-collapse:collapse;
+      border-spacing:0;
+      color:#999;
+       font-family: arial;
+      font-size: 14px;
+      text-decoration:none;
+      -webkit-transform:translateZ(0) scale(1,1);
+      -webkit-transition:all .1s linear;
+      transition:all .1s linear;
+
+      }
+
+      .main-menu .nav-icon {
+      position:relative;
+      display:table-cell;
+      width:60px;
+      height:36px;
+      text-align:center;
+      vertical-align:middle;
+      font-size:18px;
+      }
+
+      .main-menu .nav-text {
+      position:relative;
+      display:table-cell;
+      vertical-align:middle;
+      width:190px;
+        font-family: 'Titillium Web', sans-serif;
+      }
+
+      .main-menu>ul.logout {
+      position:absolute;
+      left:0;
+      bottom:0;
+      }
+
+      .no-touch .scrollable.hover {
+      overflow-y:hidden;
+      }
+
+      .no-touch .scrollable.hover:hover {
+      overflow-y:auto;
+      overflow:visible;
+      }
+
+      a:hover,a:focus {
+      text-decoration:none;
+      }
+
+      nav {
+      -webkit-user-select:none;
+      -moz-user-select:none;
+      -ms-user-select:none;
+      -o-user-select:none;
+      user-select:none;
+      }
+
+      nav ul,nav li {
+      outline:0;
+      margin:0;
+      padding:0;
+      }
+      .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
+      color:#fff;
+      background-color:#5fa2db;
+      }
+      .main {
+      float: right;
+      background: #e2e2e2;
+      width: 100%;
+      height: 100%;
+      }
+      @font-face {
+        font-family: 'Titillium Web';
+        font-style: normal;
+        font-weight: 300;
+        src: local('Titillium WebLight'), local('TitilliumWeb-Light'), url(http://themes.googleusercontent.com/static/fonts/titilliumweb/v2/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+      }
+
+
+
+  body
+    .main
+      nav.main-menu
+        ul
+          li
+            a(href='#')
+              i.fa.fa-home.fa-2x
+              span.nav-text
+                | e-catalog
+          li.has-subnav
+            a(href='#')
+              i.fa.fa-laptop.fa-2x
+              span.nav-text
+                | 견적서
+          li.has-subnav
+            a(href='#')
+              i.fa.fa-list.fa-2x
+              span.nav-text
+                | 주문서(외주) 모음
+          li.has-subnav
+            a(href='#')
+              i.fa.fa-folder-open.fa-2x
+              span.nav-text
+                | 주문서(매트릭스) 모음
+          li
+            a(href='#')
+              i.fa.fa-bar-chart-o.fa-2x
+              span.nav-text
+                | 주문서(미확정) 모음
+          li
+            a(href='#')
+              i.fa.fa-font.fa-2x
+              span.nav-text
+                | 작업지시서 모음
+          li
+            a(href='#')
+              i.fa.fa-table.fa-2x
+              span.nav-text
+                | 출고지시서 모음
+          li
+            a(href='#')
+              i.fa.fa-map-marker.fa-2x
+              span.nav-text
+                | 기타양식 모음
+          li
+            a(href='http://www.naver.com')
+              i.fa.fa-info.fa-2x
+              span.nav-text
+                | 네이버
+        ul.logout
+          li
+            a(href='/logout')
+              i.fa.fa-power-off.fa-2x
+              span.nav-text
+                | Logout
+    include ./header.jade
+    
+
+    #main(style='position:relative')
+      .content(style='margin:0; padding:0')
+        h3 수주관리
+        #contentleft
+          #contentlefttop
+            //버튼 눌렀을때 
+            if btnresults
+              #accordion.panel-group
+                each val, index in btnresults
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1))
+                          =index+1 +'.'+val.process
+                    div(id='collapse'+(index+1) class='panel-collapse collapse')
+                      .panel-body(id='panel-body'+val.id)
+                        div(style='float:right')
+                          button.btn.btn-success(type='button' onclick='excel(this)' id = val.id) 엑셀보기 
+                          button.btn.btn-success(type='button' onclick='revise(this)' id = val.id) 보기 및 수정
+                          button.btn.btn-danger(type='button' onclick='deleteBtn(this)' id = val.id) 삭제
+            else
+              #accordion.panel-group
+                each val, index in results
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1))
+                          =index+1 +'.'+val.process
+                    div(id='collapse'+(index+1) class='panel-collapse collapse')
+                      .panel-body(id='panel-body'+val.id)
+                        div(style='float:right')
+                          button.btn.btn-primary(type='button' onclick='excel(this)' id = val.id) 엑셀보기 
+                          button.btn.btn-success(type='button' onclick='revise(this)' id = val.id) 보기 및 수정
+                          button.btn.btn-danger(type='button' onclick='deleteBtn(this)' id = val.id) 삭제
+          br
+          br
+
+          #contentleftbottom
+            button.btn.btn-default.btn-xs(type='button' onclick='button1()') 출고준비완료
+            button.btn.btn-primary.btn-xs(type='button' onclick='button2()') 출고완료
+            button.btn.btn-success.btn-xs(type='button' onclick='button3()') 검사/검수완료
+            button.btn.btn-info.btn-xs(type='button' onclick='button4()') 세금계산서완료
+            button.btn.btn-warning.btn-xs(type='button' onclick='button5()') 입금완료
+            button.btn.btn-danger.btn-xs(type='button' onclick='button6()') 정산완료
+            button.btn.btn-primary.btn-xs(type='button' onclick='button7()') A/S완료
+            button.btn.btn-success.btn-xs(type='button' onclick='button8()') 처리완료
+            button.btn.btn-default.btn-xs(type='button' onclick='button9()') 모두보기
+
+
+
+        #contentright
+          #contentrighttop
+          br
+          br
+
+          h3 업무일지&전달사항
+          #contentrightbottom
+            form(action='#' method='post')
+              .form-group
+                textarea#comment.form-control(rows='5')
+              button.btn.btn-success(type='button' style='float:right') 저장
+
+  script.
+  
+    $(document).ready(function() {
+    $('#contentrighttop').fullCalendar({
+    header: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'month,basicWeek,basicDay'
+    },
+    defaultDate: '2016-06-12',
+    editable: true,
+    eventLimit: true, // allow "more" link when too many events
+    dayClick: function(date, allDay, jsEvent, view)
+    {
+    alert(" date: " + date
+                  + "\n allDay: " + allDay
+                  + "\n jsEvent: " + jsEvent
+                  + "\n view: " + view )
+    }
+    });
+    });
+
+    //deletelist
+    function deleteBtn(deleteBtn){
+      var getId = deleteBtn.getAttribute('id');
+      $('#panel-body'+getId).remove();
+
+      $.ajax({
+      type: "POST",
+      url: "/delete",
+      data: {Id:getId},
+      success: function(data){
+        location.href='/nexmain'
+        alert('Deleting Success');
+
+      },
+      error: function(jqXHR, textStatus, err){
+        alert('DELETE'+err);
+        alert('There is an error! on delete!');
+      }
+      });
+    }
+
+    //revise
+    function revise(reviseBtn){
+      var getId = reviseBtn.getAttribute('id');
+
+      $.ajax({
+      type: "POST",
+      url: "/revise",
+      data: {Id:getId},
+      success: function(data){
+      location.href='/revise';
+      alert('Revise Success');
+
+      },
+      error: function(jqXHR, textStatus, err){
+        alert('There is an error on revise!');
+      }
+      });
+
+    }
+    
+    //출고준비완료
+    function button1(){
+      $.ajax({
+      type: "POST",
+      url: '/btn1',
+      data: {string:'출고준비완료'},
+      success: function(data){
+      alert('btn1 Success');
+      location.href='/btn1'
+      },
+      error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn1!');
+      }
+      });
+    }
+    //출고완료
+    function button2(){
+    $.ajax({
+    type: "POST",
+    url: "/btn2",
+    data: {string:'출고완료'},
+    success: function(data){
+      location.href='/btn2'
+      alert('btn2 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn2!');
+    }
+    });
+    }
+    //검사/검수완료
+    function button3(){
+    $.ajax({
+    type: "POST",
+    url: "/btn3",
+    data: {string:'검사/검수요청완료'},
+    success: function(data){
+      location.href='/btn3'
+      alert('btn3 Success');
+      },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn3!');
+    }
+    });
+    }
+    //세금계산서
+    function button4(){
+    $.ajax({
+    type: "POST",
+    url: "/btn4",
+    data: {string:'세금계산서완료'},
+    success: function(data){
+      location.href='/btn4'
+      alert('btn4 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn4!');
+    }
+    });
+    }
+    //입금완료
+    function button5(){
+    $.ajax({
+    type: "POST",
+    url: "/btn5",
+    data: {string:'입금완료'},
+    success: function(data){
+      location.href='/btn5'
+      alert('btn5 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn5!');
+    }
+    });
+    }
+    //정산완료
+    function button6(){
+    $.ajax({
+    type: "POST",
+    url: "/btn6",
+    data: {string:'정산완료'},
+    success: function(data){
+      location.href='/btn6'
+      alert('btn6 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn6!');
+    }
+    });
+    }
+    //A/S
+    function button7(){
+    $.ajax({
+    type: "POST",
+    url: "/btn7",
+    data: {string:'A/S발생'},
+    success: function(data){
+      location.href='/btn7'
+      alert('btn7 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn7!');
+    }
+    });
+    }
+    //처리완료
+    function button8(){
+    $.ajax({
+    type: "POST",
+    url: "/btn8",
+    data: {string:'처리완료'},
+    success: function(data){
+      location.href='/btn8'
+      alert('btn8 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn8!');
+    }
+    });
+    }
+    
+    //모두보기
+    function button9(){
+      location.href='/nexmain'
+    }
+    
+    //open excel file
+    function excel(excelBtn) {
+      
+      $.ajax({
+      type: "POST",
+      url: "/openExcel",
+      data: {path:'/Users/sekyunoh/Documents/nex/견적서/test.ods'},
+      success: function(data){
+        ///location.href='/btn8'
+        alert('openExcel Success');
+
+      },
+      error: function(jqXHR, textStatus, err){
+        alert('There is an error! on OpenExcel!');
+      }
+      });
+      
+    }
+    
+    

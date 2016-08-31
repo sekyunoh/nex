@@ -1,0 +1,22 @@
+
+header
+  a(href="/nexmain")
+    img(src="/nex.png" alt="회사로고" width="150" height="70" id="logo")
+  if(SESSIONUSER)
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='/nexmain') 한성 넥스(주)
+        ul.nav.navbar-nav
+          li
+            a(href='/registerdetail') 작성하기
+
+        ul.nav.navbar-nav
+          li
+            a(style='color:lightgray;')
+              = SESSIONUSER.name +' 님 환영합니다!'
+
+
+  
+
+  

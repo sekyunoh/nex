@@ -1,0 +1,185 @@
+doctype html
+html(lang='en')
+  head
+    title It's nex
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+    script(src='http://code.jquery.com/jquery-latest.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js')
+
+    link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css', rel='stylesheet')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.4/css/fileinput.min.css', media='all', rel='stylesheet', type='text/css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+    //
+      canvas-to-blob.min.js is only needed if you wish to resize images before upload.
+      This must be loaded before fileinput.min.js
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.3.0/js/canvas-to-blob.min.js', type='text/javascript')
+    //
+      sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
+      This must be loaded before fileinput.min.js
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/sortable/0.8.0/js/sortable.min.js', type='text/javascript')
+    //
+      purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
+      This must be loaded before fileinput.min.js
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/dompurify/0.8.3/purify.min.js', type='text/javascript')
+    // the main fileinput plugin file
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.4/js/fileinput.min.js')
+    //
+      bootstrap.js below is needed if you wish to zoom and view file content
+      in a larger detailed modal dialog
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', type='text/javascript')
+    //
+      optionally if you need a theme like font awesome theme you can include
+      it as mentioned below
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.4/themes/fa/theme.js')
+    //
+      optionally if you need translation for your language then include
+      locale file as mentioned below
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-lang-js/3.0.0/jquery-lang.js')
+
+    //checkbox
+    script.
+      function selectBox(check){
+      var boxes = document.getElementsByName(check.getAttribute("name"));
+      for(var i = 0; i < boxes.length; i++){
+      if(boxes[i].checked == true){
+      //alert(boxes[i].value);
+      boxes[i].checked = false;
+      }
+      }
+      check.checked = true;
+      }
+
+
+    style.
+      body{width:93%; margin:0 auto}
+      #success_message{ display: none;}
+
+      #btn-file {
+      position: relative;
+      overflow: hidden;
+      }
+      #input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      min-width: 100%;
+      min-height: 100%;
+      font-size: 100px;
+      text-align: right;
+      filter: alpha(opacity=0);
+      opacity: 0;
+      outline: none;
+      background: white;
+      cursor: inherit;
+      display: block;
+      }
+
+
+  body
+    include ./header.jade
+
+    #main
+      form(action='/revise/complete' method='post')
+        .form.row(style='text-align:center')
+          .form-group.col-md-4
+            label 접수일자
+            input.form-control(type='date', name='acceptdate', value=results[0].acceptdate)
+          .form-group.col-md-4
+            label 계약방법
+            select.form-control(name='reservationway', value=results[0].reservationway)
+              option(value='MAS') MAS
+              option(value='MAS 2단계') MAS 2단계
+              option(value='입찰') 입찰
+              option(value='수의') 수의
+              option(value='기타') 기타
+
+          .form-group.col-md-4
+            label 수요기관(발주업체)
+            input.form-control(type='text' name='demandcompany', value=results[0].demandcompany)
+
+          p
+
+        .form.row(style='text-align:center')
+          .form-group.col-md-4
+            label영업담당
+            input.form-control(type='text' name='salesman', value=results[0].salesman)
+          .form-group.col-md-4
+            label 계약건명(공사명)
+            input.form-control(type='text' name='nameofcontract', value=results[0].nameofcontract)
+          .form-group.col-md-4
+            label 금액(VAT포함)
+            input.form-control(type='text' name='sum', value=results[0].sum)
+
+        .form.row(style='text-align:center')
+          .form-group.col-md-4
+            label 출고일자(예정일자)
+            input.form-control(type='date', name='expectdate', value=results[0].expectdate)
+          .form-group.col-md-4
+            label 운임
+            input.form-control(type='text' name='deliver', value=results[0].deliver)
+          .form-group.col-md-4
+            label 설치
+            input.form-control(type='text' name='setup', value=results[0].setup)
+
+        .form-group
+          label 참고
+          input.form-control(type='text' name='reference', value=results[0].reference)
+          small#referenceHelp.form-text.text-muted 색상확인/규격확인/희망일자/담당자/출입신고/구비서류,도장(수의)
+        br
+
+        label 진행상황
+        .row(style='text-align:center')
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)', checked='true')
+            | 출고 준비 완료
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='출고완료', onclick='selectBox(this)')
+            | 출고완료
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='검사/검수요청완료', onclick='selectBox(this)')
+            | 검사/검수 요청 완료
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='세금계산서완료', onclick='selectBox(this)')
+            | 세금계산서 완료
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='입금완료', onclick='selectBox(this)')
+            | 입금완료
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='정산완료', onclick='selectBox(this)')
+            | 정산완료
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='A/S완료', onclick='selectBox(this)')
+            | A/S 발생
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='처리완료', onclick='selectBox(this)')
+            | 처리완료
+
+        br
+        br
+
+        label 작업서류
+        p
+          .form-group
+            label.control-label 견적서
+            input#input-1.file(type='file', name='document1', value=results[0].document1)
+          .form-group
+            label.control-label 분납요구서/계약서
+            input#input-2.file(type='file', name='document2', value=results[0].document2)
+          .form-group
+            label.control-label 발주서
+            input#input-3.file(type='file', name='document3', value=results[0].document3)
+          .form-group
+            label.control-label 작업지시서
+            input#input-4.file(type='file', name='document4', value=results[0].document4)
+          .form-group
+            label.control-label 출고지시서
+            input#input-5.file(type='file', name='document5', value=results[0].document5)
+
+
+
+
+        button.btn.btn-success(type='submit' style='float:right') 저장하기
