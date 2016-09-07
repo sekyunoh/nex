@@ -5,8 +5,8 @@ html(lang='en')
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
-    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+    //script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
     script(src='http://code.jquery.com/jquery-latest.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js')
 
@@ -52,8 +52,29 @@ html(lang='en')
       }
       check.checked = true;
       }
-
-
+      
+      function whichOneChecked(){
+      $("input[id='#{results[0].process}']").prop("checked", true) ;
+      }
+      
+      function number_chk(obj){
+      var val = obj.value.replace(/,/g, "");
+      var val2 = val.substr(0, 1);
+      var val3 = val.length;
+      if(val2 == 0){
+      val = val.substr(1, val3);
+      }
+      obj.value = num_format(val);
+      }
+      function num_format(n){
+      var reg = /(^[+-]?\d+)(\d{3})/;   // 정규식
+      n = String(n);    //숫자 -> 문자변환
+      while(reg.test(n)){
+      n = n.replace(reg, "$1" + "," + "$2");
+      }
+      return n;
+      }
+      
     style.
       body{width:93%; margin:0 auto}
       #success_message{ display: none;}
@@ -79,7 +100,8 @@ html(lang='en')
       }
 
 
-  body
+  body(onload='whichOneChecked()')
+    include ./sidebar.jade
     include ./header.jade
 
     #main
@@ -87,7 +109,7 @@ html(lang='en')
         .form.row(style='text-align:center')
           .form-group.col-md-4
             label 접수일자
-            input.form-control(type='date', name='acceptdate', value=results[0].acceptdate)
+            input.form-control(type='date', name='acceptdate', value=results[0].acceptdate, id='acceptdate')
           .form-group.col-md-4
             label 계약방법
             select.form-control(name='reservationway', value=results[0].reservationway)
@@ -104,20 +126,23 @@ html(lang='en')
           p
 
         .form.row(style='text-align:center')
-          .form-group.col-md-4
-            label영업담당
-            input.form-control(type='text' name='salesman', value=results[0].salesman)
+          .form-group.col-md-2
+            label 내부영업담당
+            input.form-control(type='text' name='insalesman' value=results[0].insalesman)
+          .form-group.col-md-2
+            label 거래처영업담당
+            input.form-control(type='text' name='outsalesman' value=results[0].outsalesman)
           .form-group.col-md-4
             label 계약건명(공사명)
             input.form-control(type='text' name='nameofcontract', value=results[0].nameofcontract)
           .form-group.col-md-4
             label 금액(VAT포함)
-            input.form-control(type='text' name='sum', value=results[0].sum)
+            input.form-control(type='text' onkeyup='number_chk(this)' name='sum', value=results[0].sum)
 
         .form.row(style='text-align:center')
           .form-group.col-md-4
             label 출고일자(예정일자)
-            input.form-control(type='date', name='expectdate', value=results[0].expectdate)
+            input.form-control(type='date', name='expectdate', value=results[0].expectdate, id='expectdate')
           .form-group.col-md-4
             label 운임
             input.form-control(type='text' name='deliver', value=results[0].deliver)
@@ -127,36 +152,40 @@ html(lang='en')
 
         .form-group
           label 참고
-          input.form-control(type='text' name='reference', value=results[0].reference)
+          textarea.form-control(name='reference' rows='3' style='color:blue; font-size:20px' )
+            =value=results[0].reference
           small#referenceHelp.form-text.text-muted 색상확인/규격확인/희망일자/담당자/출입신고/구비서류,도장(수의)
         br
 
         label 진행상황
         .row(style='text-align:center')
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)', checked='true')
+            input(type='checkbox', name='box1', value='준비중', onclick='selectBox(this)' id='준비중')
+            | 준비중
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)' id='출고준비완료')
             | 출고 준비 완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='출고완료', onclick='selectBox(this)')
-            | 출고완료
+            input(type='checkbox', name='box1', value='납품완료', onclick='selectBox(this)' id='납품완료')
+            | 납품완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='검사/검수요청완료', onclick='selectBox(this)')
+            input(type='checkbox', name='box1', value='검사/검수요청완료', onclick='selectBox(this)' id='검사/검수요청완료')
             | 검사/검수 요청 완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='세금계산서완료', onclick='selectBox(this)')
+            input(type='checkbox', name='box1', value='세금계산서완료', onclick='selectBox(this)' id='세금계산서완료')
             | 세금계산서 완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='입금완료', onclick='selectBox(this)')
+            input(type='checkbox', name='box1', value='입금완료', onclick='selectBox(this)' id='입금완료')
             | 입금완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='정산완료', onclick='selectBox(this)')
-            | 정산완료
+            input(type='checkbox', name='box1', value='정산요망', onclick='selectBox(this)' id='정산요망')
+            | 정산요망
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='A/S완료', onclick='selectBox(this)')
-            | A/S 발생
+            input(type='checkbox', name='box1', value='A/S발생', onclick='selectBox(this)' id='A/S발생')
+            | A/S발생
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='처리완료', onclick='selectBox(this)')
-            | 처리완료
+            input(type='checkbox', name='box1', value='A/S완료', onclick='selectBox(this)' id='A/S완료')
+            | A/S완료
 
         br
         br
@@ -166,18 +195,89 @@ html(lang='en')
           .form-group
             label.control-label 견적서
             input#input-1.file(type='file', name='document1', value=results[0].document1)
+            br
+            label(style='color:red') 전에 선택한 파일: 
+            input(type='text',value=results[0].document1, readOnly, style='border:none')
           .form-group
             label.control-label 분납요구서/계약서
             input#input-2.file(type='file', name='document2', value=results[0].document2)
+            br
+            label(style='color:red') 전에 선택한 파일: 
+            input(type='text',value=results[0].document2, readOnly, style='border:none')
           .form-group
             label.control-label 발주서
-            input#input-3.file(type='file', name='document3', value=results[0].document3)
+            .panel-group
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle='collapse', href='#collapse1') 발주서 입력하기 
+                #collapse1.panel-collapse.collapse
+                  .panel-body
+                    label.control-label 발주서1
+                      input.form-control(type='text' value=results[0].document3_list1_name name='document3_list1_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list1.file(type='file', name='document3_list1' value=results[0].document3_list1)
+                    label(style='color:red') 전에 선택한 파일: 
+                    input(type='text',value=results[0].document3_list1, readOnly, style='border:none')
+                    br
+                    
+                    label.control-label 발주서2
+                      input.form-control(type='text' value=results[0].document3_list2_name name='document3_list2_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list2.file(type='file', name='document3_list2' value=results[0].document3_list2)
+                    label(style='color:red') 전에 선택한 파일: 
+                    input(type='text',value=results[0].document3_list2, readOnly, style='border:none')
+                    br
+                    
+                    label.control-label 발주서3
+                      input.form-control(type='text' value=results[0].document3_list3_name name='document3_list3_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list3.file(type='file', name='document3_list3' value=results[0].document3_list3)
+                    label(style='color:red') 전에 선택한 파일: 
+                    input(type='text',value=results[0].document3_list3, readOnly, style='border:none')
+                    br
+                    
+                    label.control-label 발주서4
+                      input.form-control(type='text' value=results[0].document3_list4_name name='document3_list4_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list4.file(type='file', name='document3_list4' value=results[0].document3_list4)
+                    label(style='color:red') 전에 선택한 파일: 
+                    input(type='text',value=results[0].document3_list4, readOnly, style='border:none')
+                    br
+                    
+                    label.control-label 발주서5
+                      input.form-control(type='text' value=results[0].document3_list5_name name='document3_list5_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list5.file(type='file', name='document3_list5' value=results[0].document3_list5)
+                    label(style='color:red') 전에 선택한 파일: 
+                    input(type='text',value=results[0].document3_list5, readOnly, style='border:none')
+                    br
+                    
+                    label.control-label 발주서6
+                      input.form-control(type='text' value=results[0].document3_list6_name name='document3_list6_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list6.file(type='file', name='document3_list6' value=results[0].document3_list6)
+                    label(style='color:red') 전에 선택한 파일: 
+                    input(type='text',value=results[0].document3_list6, readOnly, style='border:none')
+                    br
+                    
+                    label.control-label 발주서7
+                      input.form-control(type='text' value=results[0].document3_list7_name name='document3_list7_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list7.file(type='file', name='document3_list7' value=results[0].document3_list7)
+                    label(style='color:red') 전에 선택한 파일: 
+                    input(type='text',value=results[0].document3_list7, readOnly, style='border:none')
+                    br
+                    
+
+            br
+            label(style='color:red') 전에 선택한 파일: 
+            input(type='text',value=results[0].document3, readOnly, style='border:none')
           .form-group
             label.control-label 작업지시서
             input#input-4.file(type='file', name='document4', value=results[0].document4)
+            br
+            label(style='color:red') 전에 선택한 파일: 
+            input(type='text',value=results[0].document4, readOnly, style='border:none')
           .form-group
             label.control-label 출고지시서
             input#input-5.file(type='file', name='document5', value=results[0].document5)
+            br
+            label(style='color:red') 전에 선택한 파일: 
+            input(type='text',value=results[0].document5, readOnly, style='border:none')
 
 
 

@@ -184,6 +184,55 @@ app.get('/fail',function(req, res){
 
 //main
 
+app.get('/manageUsers', function(req, res){
+  var sql = 'select * from account';
+
+  conn.query(sql,function(err, rows){
+    if(err){
+      if(err){
+        console.log(err);
+        res.status(500).send('Internal server error in manageUsers')
+      }
+    }else{
+      res.render('manageUsers', {results: rows})
+    }
+  })
+});
+
+app.post('/deleteUsers', function(req, res){
+  var id = req.body.Id
+
+  var remove = 'delete from account where id=?'
+  conn.query(remove, [id], function(err, rows){
+    if(err){
+      console.log(err);
+      res.status(500).send('delete account error!');
+    }else{
+
+    }
+  })
+})
+
+app.get('/addUsers', function(req, res){
+  res.render('registration')
+});
+
+app.post('/registration', function(req, res){
+  var name = req.body.username
+  var pw = req.body.password
+
+  var adding = 'insert into account (name, password, role) value (?,?,?)'
+
+  conn.query(adding, [name, pw, 'user'], function(err, rows){
+    if(err){
+      console.log(err);
+      res.status(500).send('adding user error!');
+    }else{
+      res.redirect('/manageUsers')
+    }
+  })
+})
+
 //nexmain
 app.get('/nexmain',function(req, res){
   var selectdetail_info = 'select * from input_detail';
@@ -192,11 +241,21 @@ app.get('/nexmain',function(req, res){
       console.log(err);
       res.status(500).send('select from input_detail error!');
     }else{
+
       res.render('nexmain',{results:rows});
     }
   });
 
 });
+
+app.get('/getFiles', function(req, res){
+  console.log('it comes')
+  fs.readdir('/Users/sekyunoh/Documents/nex/견적서/', function(err, files) {
+    if (err) return;
+    console.log('Files: ' + files);
+    res.render('sidebar', {Files: files})
+  })
+})
 
 //수주대장작성
 app.get('/registerdetail', function(req, res){
@@ -215,17 +274,35 @@ app.post('/openExcel', function(req, res){
 
 app.post('/registerdetail/complete', function(req, res){
   var acceptdate = req.body.acceptdate;
-  var reservationway = req.body.reservationway;
-  var demandcompany = req.body.demandcompany;
-  var salesman = req.body.salesman;
-  var nameofcontract = req.body.nameofcontract;
-  var sum = req.body.sum;
+  var reservationway = req.body.reservationway.trim();
+  var demandcompany = req.body.demandcompany.trim();
+  var insalesman = req.body.insalesman.trim();
+  var outsalesman = req.body.outsalesman.trim();
+  var nameofcontract = req.body.nameofcontract.trim();
+  var sum = req.body.sum.trim();
   var expectdate = req.body.expectdate;
-  var deliver = req.body.deliver;
-  var setup = req.body.setup;
-  var reference = req.body.reference;
+  var deliver = req.body.deliver.trim();
+  var setup = req.body.setup.trim();
+  var reference = req.body.reference.trim();
   var box1 = req.body.box1;
-  var document1 = req.body.document1;
+  var document3_list1 = req.body.document3_list1.trim()
+  var document3_list2 = req.body.document3_list2.trim()
+  var document3_list3 = req.body.document3_list3.trim()
+  var document3_list4 = req.body.document3_list4.trim()
+  var document3_list5 = req.body.document3_list5.trim()
+  var document3_list6 = req.body.document3_list6.trim()
+  var document3_list7 = req.body.document3_list7.trim()
+  var document3_list1_name = req.body.document3_list1_name.trim();
+  var document3_list2_name = req.body.document3_list2_name.trim();
+  var document3_list3_name = req.body.document3_list3_name.trim();
+  var document3_list4_name = req.body.document3_list4_name.trim();
+  var document3_list5_name = req.body.document3_list5_name.trim();
+  var document3_list6_name = req.body.document3_list6_name.trim();
+  var document3_list7_name = req.body.document3_list7_name.trim();
+  var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/';
+
+
+  var document1 = req.body.document1.trim();
   var doc1filePath = '/Users/sekyunoh/Documents/nex/견적서/'+document1;
   fs.writeFile(doc1filePath,function(error){
     if(error){
@@ -234,7 +311,7 @@ app.post('/registerdetail/complete', function(req, res){
       console.log('uploading success')
     }
   })
-  var document2 = req.body.document2;
+  var document2 = req.body.document2.trim();
   var doc2filePath = '/Users/sekyunoh/Documents/nex/분납요구서&계약서/'+document2;
   fs.writeFile(doc2filePath,function(error){
     if(error){
@@ -243,16 +320,91 @@ app.post('/registerdetail/complete', function(req, res){
       console.log('uploading success')
     }
   })
-  var document3 = req.body.document3;
-  var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3;
-  fs.writeFile(doc3filePath,function(error){
-    if(error){
-      console.log(error);
-    }else{
-      console.log('uploading success')
-    }
-  })
-  var document4 = req.body.document4;
+
+  if(document3_list1 != undefined){
+
+    fs.writeFile(doc3filePath+document3_list1,function(error){
+      if(error){
+        console.log('err here1??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    })
+  }
+
+  if(document3_list2 != undefined){
+
+    fs.writeFile(doc3filePath+document3_list2,function(error){
+      if(error){
+        console.log('err here2??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    })
+  }
+
+  if(document3_list3 != undefined){
+
+    fs.writeFile(doc3filePath+document3_list3,function(error){
+      if(error){
+        console.log('err here3??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    })
+  }
+
+  if(document3_list4 != undefined){
+
+    fs.writeFile(doc3filePath+document3_list4,function(error){
+      if(error){
+        console.log('err here4??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    })
+  }
+
+  if(document3_list5 != undefined){
+
+    fs.writeFile(doc3filePath+document3_list5,function(error){
+      if(error){
+        console.log('err here5??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    })
+  }
+
+  if(document3_list6 != undefined){
+    fs.writeFile(doc3filePath+document3_list6,function(error){
+      if(error){
+        console.log('err here6??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    })
+  }
+
+  if(document3_list7 != undefined){
+
+    fs.writeFile(doc3filePath+document3_list7,function(error){
+      if(error){
+        console.log('err here7??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    })
+  }
+
+  var document4 = req.body.document4.trim();
   var doc4filePath = '/Users/sekyunoh/Documents/nex/작업지시서/'+document4;
   fs.writeFile(doc4filePath,function(error){
     if(error){
@@ -261,7 +413,7 @@ app.post('/registerdetail/complete', function(req, res){
       console.log('uploading success')
     }
   })
-  var document5 = req.body.document5;
+  var document5 = req.body.document5.trim();
   var doc5filePath = '/Users/sekyunoh/Documents/nex/출고지시서/'+document5;
   fs.writeFile(doc5filePath,function(error){
     if(error){
@@ -271,11 +423,19 @@ app.post('/registerdetail/complete', function(req, res){
     }
   })
 
-  var input_detail = 'insert into input_detail (acceptdate,reservationway,demandcompany,salesman,nameofcontract,'+
-  'sum,expectdate,deliver,setup,reference,process,document1,document2,document3,document4,document5) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+  var input_detail = 'insert into input_detail (acceptdate,reservationway,demandcompany,insalesman,outsalesman,nameofcontract,'+
+  'sum,expectdate,deliver,setup,reference,process,document1,document2,'+
+  'document3_list1_name,document3_list1,document3_list2_name,document3_list2,'+
+  'document3_list3_name,document3_list3,document3_list4_name,document3_list4,'+
+  'document3_list5_name,document3_list5,document3_list6_name,document3_list6,'+
+  'document3_list7_name,document3_list7,document4,document5)'+ 'values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
 
-  conn.query(input_detail,[acceptdate,reservationway,demandcompany,salesman,nameofcontract,sum,expectdate,deliver
-  ,setup,reference,box1,document1,document2,document3,document4,document5],function(err,rows){
+  conn.query(input_detail,[acceptdate,reservationway,demandcompany,insalesman,outsalesman,
+    nameofcontract,sum,expectdate,deliver,setup,reference,box1,document1,document2,
+    document3_list1_name,document3_list1,document3_list2_name,document3_list2,
+  document3_list3_name,document3_list3,document3_list4_name,document3_list4,
+  document3_list5_name,document3_list5,document3_list6_name,document3_list6,
+  document3_list7_name,document3_list7,document4,document5],function(err,rows){
     if(err){
       console.log(err);
       res.status(500).send('input_detail_error!!');
@@ -308,6 +468,7 @@ app.post('/revise', function(req, res){
 });
 
 app.get('/revise', function(req, res){
+  //여기부터 수정된거 다시 데이터베이스 update!
   var reviseSql = 'select * from input_detail where id=?';
 
   conn.query(reviseSql, [id], function(err, rows){
@@ -322,6 +483,304 @@ app.get('/revise', function(req, res){
 
 app.post('/revise/complete', function(req, res){
 
+  var acceptdate = req.body.acceptdate;
+  var reservationway = req.body.reservationway.trim();
+  var demandcompany = req.body.demandcompany.trim();
+  var insalesman = req.body.insalesman.trim();
+  var outsalesman = req.body.outsalesman.trim();
+  var nameofcontract = req.body.nameofcontract.trim();
+  var sum = req.body.sum.trim();
+  var expectdate = req.body.expectdate;
+  var deliver = req.body.deliver.trim();
+  var setup = req.body.setup.trim();
+  var reference = req.body.reference.trim();
+  var box1 = req.body.box1;
+  var document3_list1 = req.body.document3_list1.trim()
+  var document3_list2 = req.body.document3_list2.trim()
+  var document3_list3 = req.body.document3_list3.trim()
+  var document3_list4 = req.body.document3_list4.trim()
+  var document3_list5 = req.body.document3_list5.trim()
+  var document3_list6 = req.body.document3_list6.trim()
+  var document3_list7 = req.body.document3_list7.trim()
+  var document3_list1_name = req.body.document3_list1_name.trim();
+  var document3_list2_name = req.body.document3_list2_name.trim();
+  var document3_list3_name = req.body.document3_list3_name.trim();
+  var document3_list4_name = req.body.document3_list4_name.trim();
+  var document3_list5_name = req.body.document3_list5_name.trim();
+  var document3_list6_name = req.body.document3_list6_name.trim();
+  var document3_list7_name = req.body.document3_list7_name.trim();
+
+  var update_detail = 'update input_detail SET acceptdate=?,reservationway=?,demandcompany=?,insalesman=?,outsalesman=?,nameofcontract=?,'+
+  'sum=?,expectdate=?,deliver=?,setup=?,reference=?,process=? where id=?';
+
+  conn.query(update_detail,[acceptdate,reservationway,demandcompany,insalesman,outsalesman,nameofcontract,sum,expectdate,deliver
+  ,setup,reference,box1,id],function(err,rows){
+    if(err){
+      console.log(err);
+      res.status(500).send('input_detail_error!!');
+    }else{
+      console.log('Updating detail succeed!')
+      res.redirect('/nexmain');
+    }
+  })
+
+
+  var doc1Revise = 'update input_detail SET document1=? where id=?'
+  var document1 = req.body.document1.trim();
+  if(document1 != undefined){
+    var doc1filePath = '/Users/sekyunoh/Documents/nex/견적서/'+document1;
+    fs.writeFile(doc1filePath,function(error){
+      if(error){
+        console.log(error);
+      }else{
+        conn.query(doc1Revise, [document1, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document1 update error!');
+          }else{
+            console.log('uploading success')
+          }
+        })
+      }
+    })
+  }
+
+  var doc2Revise = 'update input_detail SET document2=? where id=?'
+  var document2 = req.body.document2.trim();
+  if(document2 != undefined){
+    var doc2filePath = '/Users/sekyunoh/Documents/nex/분납요구서&계약서/'+document2;
+    fs.writeFile(doc2filePath,function(error){
+      if(error){
+        console.log(error);
+      }else{
+        conn.query(doc2Revise, [document2, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document2 update error!');
+          }else{
+            console.log('uploading success')
+          }
+        })
+      }
+    })
+  }
+
+
+  var doc3_list1Revise = 'update input_detail SET document3_list1=? where id=?'
+  var doc3_list1_nameRevise = 'update input_detail SET document3_list1_name=? where id=?'
+    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list1;
+    fs.writeFile(doc3filePath,function(error){
+
+        conn.query(doc3_list1Revise, [document3_list1, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list1 update error!');
+          }else{
+            conn.query(doc3_list1_nameRevise, [document3_list1_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list1_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    })
+
+
+  var doc3_list2Revise = 'update input_detail SET document3_list2=? where id=?'
+  var doc3_list2_nameRevise = 'update input_detail SET document3_list2_name=? where id=?'
+    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list2;
+    fs.writeFile(doc3filePath,function(error){
+
+        conn.query(doc3_list2Revise, [document3_list2, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list2 update error!');
+          }else{
+            conn.query(doc3_list2_nameRevise, [document3_list2_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list2_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    })
+
+
+  var doc3_list3Revise = 'update input_detail SET document3_list3=? where id=?'
+  var doc3_list3_nameRevise = 'update input_detail SET document3_list3_name=? where id=?'
+
+    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list3;
+    fs.writeFile(doc3filePath,function(error){
+        conn.query(doc3_list3Revise, [document3_list3, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list3 update error!');
+          }else{
+            conn.query(doc3_list3_nameRevise, [document3_list3_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list3_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    })
+
+
+  var doc3_list4Revise = 'update input_detail SET document3_list4=? where id=?'
+  var doc3_list4_nameRevise = 'update input_detail SET document3_list4_name=? where id=?'
+    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list4;
+    fs.writeFile(doc3filePath,function(error){
+
+        conn.query(doc3_list4Revise, [document3_list4, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list4 update error!');
+          }else{
+            conn.query(doc3_list4_nameRevise, [document3_list4_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list4_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    })
+
+
+  var doc3_list5Revise = 'update input_detail SET document3_list5=? where id=?'
+  var doc3_list5_nameRevise = 'update input_detail SET document3_list5_name=? where id=?'
+    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list5;
+    fs.writeFile(doc3filePath,function(error){
+
+        conn.query(doc3_list5Revise, [document3_list5, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list5 update error!');
+          }else{
+            conn.query(doc3_list5_nameRevise, [document3_list5_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list5_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    })
+
+
+  var doc3_list6Revise = 'update input_detail SET document3_list6=? where id=?'
+  var doc3_list6_nameRevise = 'update input_detail SET document3_list6_name=? where id=?'
+
+    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list6;
+    fs.writeFile(doc3filePath,function(error){
+
+        conn.query(doc3_list6Revise, [document3_list6, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list1 update error!');
+          }else{
+            conn.query(doc3_list6_nameRevise, [document3_list6_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list6_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    })
+
+
+  var doc3_list7Revise = 'update input_detail SET document3_list7=? where id=?'
+  var doc3_list7_nameRevise = 'update input_detail SET document3_list7_name=? where id=?'
+    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list7;
+    fs.writeFile(doc3filePath,function(error){
+
+        conn.query(doc3_list7Revise, [document3_list7, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list7 update error!');
+          }else{
+            conn.query(doc3_list7_nameRevise, [document3_list7_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list7_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    })
+
+
+  var doc4Revise = 'update input_detail SET document4=? where id=?'
+  var document4 = req.body.document4.trim();
+  if(document4 != undefined){
+    var doc4filePath = '/Users/sekyunoh/Documents/nex/작업지시서/'+document4;
+    fs.writeFile(doc4filePath,function(error){
+      if(error){
+        console.log(error);
+      }else{
+        conn.query(doc4Revise, [document4, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document4 update error!');
+          }else{
+            console.log('uploading success')
+          }
+        })
+      }
+    })
+  }
+
+  var doc5Revise = 'update input_detail SET document5=? where id=?'
+  var document5 = req.body.document5.trim();
+  if(document5 != undefined){
+    var doc5filePath = '/Users/sekyunoh/Documents/nex/출고지시서/'+document5;
+    fs.writeFile(doc5filePath,function(error){
+      if(error){
+        console.log(error);
+      }else{
+        conn.query(doc5Revise, [document5, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document5 update error!');
+          }else{
+            console.log('uploading success')
+          }
+        })
+      }
+    })
+  }
 });
 
 

@@ -1,0 +1,8 @@
+function (error){
+      if(error){
+        console.log('err here1??')
+        console.log(error);
+      }else{
+        console.log('uploading success')
+      }
+    }

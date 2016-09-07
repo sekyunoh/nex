@@ -5,8 +5,8 @@ html(lang='en')
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
-    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+    //script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
     script(src='http://code.jquery.com/jquery-latest.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/1.2.1/bootstrap-filestyle.min.js')
 
@@ -40,6 +40,8 @@ html(lang='en')
       locale file as mentioned below
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-lang-js/3.0.0/jquery-lang.js')
 
+
+
     //checkbox
     script.
       function selectBox(check){
@@ -52,10 +54,34 @@ html(lang='en')
       }
       check.checked = true;
       }
-
       
-  
-
+      function number_chk(obj){
+      var val = obj.value.replace(/,/g, "");
+      var val2 = val.substr(0, 1);
+      var val3 = val.length;
+      if(val2 == 0){
+      val = val.substr(1, val3);
+      }
+      obj.value = num_format(val);
+      }
+      function num_format(n){
+      var reg = /(^[+-]?\d+)(\d{3})/;   // 정규식
+      n = String(n);    //숫자 -> 문자변환
+      while(reg.test(n)){
+      n = n.replace(reg, "$1" + "," + "$2");
+      }
+      return n;
+      }
+        
+          //$(document).ready(function(){
+          //$("#addBtn").click(function(){
+          //$('.panel-body').
+          //append('<label class="control-label">발주서1'+
+            //       '<input type="text" name="document3_list1" placeholder="이름을 입력해주세요" class="form-control"/>'+
+            //     '</label>'+
+            //     '<input id="input-3_list1" type="file" name="document3_list1" class="file"/>');
+          //});
+          //});
 
     style.
       body{width:93%; margin:0 auto}
@@ -83,6 +109,7 @@ html(lang='en')
 
 
   body
+    include ./sidebar.jade
     include ./header.jade
 
     #main
@@ -107,15 +134,18 @@ html(lang='en')
           p
 
         .form.row(style='text-align:center')
-          .form-group.col-md-4
-            label영업담당
-            input.form-control(type='text' name='salesman')
+          .form-group.col-md-2
+            label 내부영업담당
+            input.form-control(type='text' name='insalesman')
+          .form-group.col-md-2
+            label 거래처영업담당
+            input.form-control(type='text' name='outsalesman')
           .form-group.col-md-4
             label 계약건명(공사명)
             input.form-control(type='text' name='nameofcontract')
           .form-group.col-md-4
             label 금액(VAT포함)
-            input.form-control(type='text' name='sum')
+            input.form-control(onkeyup='number_chk(this)' type='text' name='sum')
 
         .form.row(style='text-align:center')
           .form-group.col-md-4
@@ -130,18 +160,21 @@ html(lang='en')
 
         .form-group
           label 참고
-          input.form-control(type='text' name='reference')
+          textarea.form-control(name='reference' rows='3' style='color:blue; font-size:20px')
           small#referenceHelp.form-text.text-muted 색상확인/규격확인/희망일자/담당자/출입신고/구비서류,도장(수의)
         br
 
         label 진행상황
         .row(style='text-align:center')
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)', checked='true')
+            input(type='checkbox', name='box1', value='준비중', onclick='selectBox(this)', checked='true')
+            | 준비중
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)')
             | 출고 준비 완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='출고완료', onclick='selectBox(this)')
-            | 출고완료
+            input(type='checkbox', name='box1', value='납품완료', onclick='selectBox(this)')
+            | 납품완료
           label.checkbox-inline
             input(type='checkbox', name='box1', value='검사/검수요청완료', onclick='selectBox(this)')
             | 검사/검수 요청 완료
@@ -152,14 +185,14 @@ html(lang='en')
             input(type='checkbox', name='box1', value='입금완료', onclick='selectBox(this)')
             | 입금완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='정산완료', onclick='selectBox(this)')
-            | 정산완료
+            input(type='checkbox', name='box1', value='정산요망', onclick='selectBox(this)')
+            | 정산요망
+          label.checkbox-inline
+            input(type='checkbox', name='box1', value='A/S발생', onclick='selectBox(this)')
+            | A/S발생
           label.checkbox-inline
             input(type='checkbox', name='box1', value='A/S완료', onclick='selectBox(this)')
-            | A/S 발생
-          label.checkbox-inline
-            input(type='checkbox', name='box1', value='처리완료', onclick='selectBox(this)')
-            | 처리완료
+            | A/S완료
 
         br
         br
@@ -174,15 +207,40 @@ html(lang='en')
             input#input-2.file(type='file', name='document2')
           .form-group
             label.control-label 발주서
-            input#input-3.file(type='file', name='document3')
+            .panel-group
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle='collapse', href='#collapse1') 발주서 입력하기 
+                    //  button.btn.btn-danger.btn-xs(type='button' style='float:right' id='addBtn') +
+                #collapse1.panel-collapse.collapse
+                  .panel-body
+                    label.control-label 발주서1
+                      input.form-control(type='text' name='document3_list1_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list1.file(type='file', name='document3_list1')
+                    label.control-label 발주서2
+                      input.form-control(type='text' name='document3_list2_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list2.file(type='file', name='document3_list2')
+                    label.control-label 발주서3
+                      input.form-control(type='text' name='document3_list3_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list3.file(type='file', name='document3_list3')
+                    label.control-label 발주서4
+                      input.form-control(type='text' name='document3_list4_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list4.file(type='file', name='document3_list4')
+                    label.control-label 발주서5
+                      input.form-control(type='text' name='document3_list5_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list5.file(type='file', name='document3_list5')
+                    label.control-label 발주서6
+                      input.form-control(type='text' name='document3_list6_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list6.file(type='file', name='document3_list6')
+                    label.control-label 발주서7
+                      input.form-control(type='text' name='document3_list7_name' placeholder='이름을 입력해주세요')
+                    input#input-3_list7.file(type='file', name='document3_list7')
+              
           .form-group
             label.control-label 작업지시서
             input#input-4.file(type='file', name='document4')
           .form-group
             label.control-label 출고지시서
             input#input-5.file(type='file', name='document5')
-
-
-
-
         button.btn.btn-success(type='submit' style='float:right') 저장하기

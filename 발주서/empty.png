@@ -1,0 +1,20 @@
+function (error){
+
+        conn.query(doc3_list1Revise, [document3_list1, id], function(err, rows){
+          if(err){
+            console.log(err);
+            res.status(500).send('document3_list1 update error!');
+          }else{
+            conn.query(doc3_list1_nameRevise, [document3_list1_name, id], function(err, rows){
+              if(err){
+                console.log(err);
+                res.status(500).send('document3_list1_name update error!');
+              }else{
+                console.log('uploading success')
+              }
+            })
+            console.log('uploading success')
+          }
+        })
+
+    }

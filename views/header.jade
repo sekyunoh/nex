@@ -2,7 +2,7 @@
 header
   a(href="/nexmain")
     img(src="/nex.png" alt="회사로고" width="150" height="70" id="logo")
-  if(SESSIONUSER)
+  if(SESSIONUSER.role == 'user')
     nav.navbar.navbar-inverse
       .container-fluid
         .navbar-header
@@ -15,7 +15,25 @@ header
           li
             a(style='color:lightgray;')
               = SESSIONUSER.name +' 님 환영합니다!'
+              
+  if(SESSIONUSER.role == 'master')
+    nav.navbar.navbar-inverse
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='/nexmain') 한성 넥스(주)
+        ul.nav.navbar-nav
+          li
+            a(href='/registerdetail') 작성하기
+          li
+            a(href='/manageUsers') 회원관리
+          li
+            a(href='#') 통계
 
+        ul.nav.navbar-nav
+          li
+            a(style='color:lightgray;')
+              = SESSIONUSER.name +' 님 환영합니다!'
+  
 
   
 
