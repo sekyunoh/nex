@@ -21,7 +21,7 @@ app.use(session({
     host:'localhost',
     port:3306,
     user:'root',
-    password:'Dhtp12rbs.',
+    //password:'Dhtp12rbs.',
     database: 'nex'
   })
 }));
@@ -31,7 +31,7 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'Dhtp12rbs.',
+  //password : 'Dhtp12rbs.',
   database : 'nex'
 });
 
@@ -250,9 +250,9 @@ app.get('/nexmain',function(req, res){
 
 app.get('/getFiles', function(req, res){
   console.log('it comes')
-  fs.readdir('/Users/sekyunoh/Documents/nex/견적서/', function(err, files) {
+  /*fs.readdir('/Users/sekyunoh/Documents/nex/견적서/', function(err, files) {
     if (err) return;
-    console.log('Files: ' + files);
+    console.log('Files: ' + files);*/
     res.render('sidebar', {Files: files})
   })
 })
@@ -299,11 +299,13 @@ app.post('/registerdetail/complete', function(req, res){
   var document3_list5_name = req.body.document3_list5_name.trim();
   var document3_list6_name = req.body.document3_list6_name.trim();
   var document3_list7_name = req.body.document3_list7_name.trim();
-  var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/';
+  //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/';
+  var doc3filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'
 
 
   var document1 = req.body.document1.trim();
-  var doc1filePath = '/Users/sekyunoh/Documents/nex/견적서/'+document1;
+  //var doc1filePath = '/Users/sekyunoh/Documents/nex/견적서/'+document1;
+  var doc1filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.NEX-견적서 모음'+document1
   fs.writeFile(doc1filePath,function(error){
     if(error){
       console.log(error);
@@ -312,7 +314,8 @@ app.post('/registerdetail/complete', function(req, res){
     }
   })
   var document2 = req.body.document2.trim();
-  var doc2filePath = '/Users/sekyunoh/Documents/nex/분납요구서&계약서/'+document2;
+  //var doc2filePath = '/Users/sekyunoh/Documents/nex/분납요구서&계약서/'+document2;
+  var doc2filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.16년 7월 22일 이후 분할납품요구및통보서'+document2
   fs.writeFile(doc2filePath,function(error){
     if(error){
       console.log(error);
@@ -405,7 +408,8 @@ app.post('/registerdetail/complete', function(req, res){
   }
 
   var document4 = req.body.document4.trim();
-  var doc4filePath = '/Users/sekyunoh/Documents/nex/작업지시서/'+document4;
+  //var doc4filePath = '/Users/sekyunoh/Documents/nex/작업지시서/'+document4;
+  var doc4filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.NEX-작업지시서 모음'+document4
   fs.writeFile(doc4filePath,function(error){
     if(error){
       console.log(error);
@@ -414,7 +418,8 @@ app.post('/registerdetail/complete', function(req, res){
     }
   })
   var document5 = req.body.document5.trim();
-  var doc5filePath = '/Users/sekyunoh/Documents/nex/출고지시서/'+document5;
+  //var doc5filePath = '/Users/sekyunoh/Documents/nex/출고지시서/'+document5;
+  var doc5filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.출고지시서 모음'+document5
   fs.writeFile(doc5filePath,function(error){
     if(error){
       console.log(error);
@@ -528,7 +533,8 @@ app.post('/revise/complete', function(req, res){
   var doc1Revise = 'update input_detail SET document1=? where id=?'
   var document1 = req.body.document1.trim();
   if(document1 != undefined){
-    var doc1filePath = '/Users/sekyunoh/Documents/nex/견적서/'+document1;
+    //var doc1filePath = '/Users/sekyunoh/Documents/nex/견적서/'+document1;
+    var doc1filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.NEX-견적서 모음'+document1
     fs.writeFile(doc1filePath,function(error){
       if(error){
         console.log(error);
@@ -548,7 +554,8 @@ app.post('/revise/complete', function(req, res){
   var doc2Revise = 'update input_detail SET document2=? where id=?'
   var document2 = req.body.document2.trim();
   if(document2 != undefined){
-    var doc2filePath = '/Users/sekyunoh/Documents/nex/분납요구서&계약서/'+document2;
+    //var doc2filePath = '/Users/sekyunoh/Documents/nex/분납요구서&계약서/'+document2;
+    var doc2filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.16년 7월 22일 이후 분할납품요구및통보서'+document2
     fs.writeFile(doc2filePath,function(error){
       if(error){
         console.log(error);
@@ -568,8 +575,9 @@ app.post('/revise/complete', function(req, res){
 
   var doc3_list1Revise = 'update input_detail SET document3_list1=? where id=?'
   var doc3_list1_nameRevise = 'update input_detail SET document3_list1_name=? where id=?'
-    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list1;
-    fs.writeFile(doc3filePath,function(error){
+    //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list1;
+    var doc3filePath1 = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'+document3_list1
+    fs.writeFile(doc3filePath1,function(error){
 
         conn.query(doc3_list1Revise, [document3_list1, id], function(err, rows){
           if(err){
@@ -593,8 +601,9 @@ app.post('/revise/complete', function(req, res){
 
   var doc3_list2Revise = 'update input_detail SET document3_list2=? where id=?'
   var doc3_list2_nameRevise = 'update input_detail SET document3_list2_name=? where id=?'
-    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list2;
-    fs.writeFile(doc3filePath,function(error){
+    //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list2;
+    var doc3filePath2 = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'+document3_list2
+    fs.writeFile(doc3filePath2,function(error){
 
         conn.query(doc3_list2Revise, [document3_list2, id], function(err, rows){
           if(err){
@@ -619,8 +628,9 @@ app.post('/revise/complete', function(req, res){
   var doc3_list3Revise = 'update input_detail SET document3_list3=? where id=?'
   var doc3_list3_nameRevise = 'update input_detail SET document3_list3_name=? where id=?'
 
-    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list3;
-    fs.writeFile(doc3filePath,function(error){
+    //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list3;
+    var doc3filePath3 = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'+document3_list3
+    fs.writeFile(doc3filePath3,function(error){
         conn.query(doc3_list3Revise, [document3_list3, id], function(err, rows){
           if(err){
             console.log(err);
@@ -643,8 +653,9 @@ app.post('/revise/complete', function(req, res){
 
   var doc3_list4Revise = 'update input_detail SET document3_list4=? where id=?'
   var doc3_list4_nameRevise = 'update input_detail SET document3_list4_name=? where id=?'
-    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list4;
-    fs.writeFile(doc3filePath,function(error){
+    //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list4;
+    var doc3filePath4 = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'+document3_list4
+    fs.writeFile(doc3filePath4,function(error){
 
         conn.query(doc3_list4Revise, [document3_list4, id], function(err, rows){
           if(err){
@@ -668,8 +679,9 @@ app.post('/revise/complete', function(req, res){
 
   var doc3_list5Revise = 'update input_detail SET document3_list5=? where id=?'
   var doc3_list5_nameRevise = 'update input_detail SET document3_list5_name=? where id=?'
-    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list5;
-    fs.writeFile(doc3filePath,function(error){
+    //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list5;
+    var doc3filePath5 = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'+document3_list5
+    fs.writeFile(doc3filePath5,function(error){
 
         conn.query(doc3_list5Revise, [document3_list5, id], function(err, rows){
           if(err){
@@ -694,8 +706,9 @@ app.post('/revise/complete', function(req, res){
   var doc3_list6Revise = 'update input_detail SET document3_list6=? where id=?'
   var doc3_list6_nameRevise = 'update input_detail SET document3_list6_name=? where id=?'
 
-    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list6;
-    fs.writeFile(doc3filePath,function(error){
+    //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list6;
+    var doc3filePath6 = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'+document3_list6
+    fs.writeFile(doc3filePath6,function(error){
 
         conn.query(doc3_list6Revise, [document3_list6, id], function(err, rows){
           if(err){
@@ -719,8 +732,9 @@ app.post('/revise/complete', function(req, res){
 
   var doc3_list7Revise = 'update input_detail SET document3_list7=? where id=?'
   var doc3_list7_nameRevise = 'update input_detail SET document3_list7_name=? where id=?'
-    var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list7;
-    fs.writeFile(doc3filePath,function(error){
+    //var doc3filePath = '/Users/sekyunoh/Documents/nex/발주서/'+document3_list7;
+    var doc3filePath7 = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.주문서(발주서) 모음'+document3_list7
+    fs.writeFile(doc3filePath7,function(error){
 
         conn.query(doc3_list7Revise, [document3_list7, id], function(err, rows){
           if(err){
@@ -745,7 +759,8 @@ app.post('/revise/complete', function(req, res){
   var doc4Revise = 'update input_detail SET document4=? where id=?'
   var document4 = req.body.document4.trim();
   if(document4 != undefined){
-    var doc4filePath = '/Users/sekyunoh/Documents/nex/작업지시서/'+document4;
+    //var doc4filePath = '/Users/sekyunoh/Documents/nex/작업지시서/'+document4;
+    var doc4filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.NEX-작업지시서 모음'+document4
     fs.writeFile(doc4filePath,function(error){
       if(error){
         console.log(error);
@@ -765,7 +780,8 @@ app.post('/revise/complete', function(req, res){
   var doc5Revise = 'update input_detail SET document5=? where id=?'
   var document5 = req.body.document5.trim();
   if(document5 != undefined){
-    var doc5filePath = '/Users/sekyunoh/Documents/nex/출고지시서/'+document5;
+    //var doc5filePath = '/Users/sekyunoh/Documents/nex/출고지시서/'+document5;
+    var doc5filePath = '\root\OFFICE_HSNEX\0.HSNEX-공유\Pro.출고지시서 모음'+document5
     fs.writeFile(doc5filePath,function(error){
       if(error){
         console.log(error);
