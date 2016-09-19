@@ -1,0 +1,337 @@
+doctype html
+html(lang='en')
+  head
+    title It's nex
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    link(rel='stylesheet', href='http://fullcalendar.io/js/fullcalendar-2.3.1/fullcalendar.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.css')
+    //font-awesome
+    link(rel='stylesheet', href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css')
+
+    //script(src='https://code.jquery.com/jquery-latest.js')
+    script(src='https://code.jquery.com/jquery-latest.min.js')
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+    //script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+    //script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js')
+    script(type='text/javascript',src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js').
+    script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.js")
+    //calendar
+    //script(src='https://code.jquery.com/jquery.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
+    //script(src='https://code.jquery.com/jquery-1.9.1.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js')
+    script(src='https:////cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.1/fullcalendar.min.js')
+    //modal
+    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    //validate 기본 이거 없으면 fullCalendar is not function occurs..
+    script(src ="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js")
+    //googleCalendar
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.0/gcal.js')
+
+
+
+    style.
+
+      body{width:93%; margin:0 auto}
+      #contentleft {width: 50%;float: left;}
+      #contentlefttop{overflow:auto; height:490px;border: 1px solid #bcbcbc;}
+      #contentleftbottom{margin-top:10%; float:left}
+
+      #contentright {width: 49.7%;float: right;}
+      #contentrighttop {border: 1px solid #bcbcbc; margin:0 auto;}
+
+  body
+    include ./sidebar.jade
+    include ./header.jade
+    
+
+    #main(style='position:relative')
+      .content(style='margin:0; padding:0')
+        h3 수주관리
+        #contentleft
+          #contentlefttop
+            //버튼 눌렀을때 
+            if btnresults
+              #accordion.panel-group
+                each val, index in btnresults
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1) style='font-size:8.5pt')
+                          =index+1 +'.'+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
+                    div(id='collapse'+(index+1) class='panel-collapse collapse')
+                      .panel-body(id='panel-body'+val.id)
+                        div(style='float:right')
+                          //button.btn.btn-primary(type='button' onclick='excel(this)' id = val.id) 엑셀보기 
+                          button.btn.btn-success(type='button' onclick='revise(this)' id = val.id) 보기 및 수정
+                          button.btn.btn-danger(type='button' onclick='deleteBtn(this)' id = val.id) 삭제
+            else
+              #accordion.panel-group
+                each val, index in results
+                  .panel.panel-default
+                    .panel-heading
+                      h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1) style='font-size:8.5pt')
+                          =index+1 +'.'+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
+                    div(id='collapse'+(index+1) class='panel-collapse collapse')
+                      .panel-body(id='panel-body'+val.id)
+                        div(style='float:right')
+                          //button.btn.btn-primary(type='button' onclick='excel(this)' id = val.id) 엑셀보기 
+                          button.btn.btn-success(type='button' onclick='revise(this)' id = val.id) 보기 및 수정
+                          button.btn.btn-danger(type='button' onclick='deleteBtn(this)' id = val.id) 삭제
+          
+
+          #contentleftbottom(style='text-align:center')
+            
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button1()') 준비중
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button2()') 출고준비완료
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button3()') 납품완료
+            
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button4()') 검사/검수요청완료
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button5()') 세금계산서완료
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button6()') 입금완료
+        
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button7()') 정산요망
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button8()') A/S발생
+              .form-group.col-md-4
+                button.btn.btn-primary.btn(type='button' onclick='button9()') A/S완료
+              .form-group.col-md-12
+                button.btn.btn-default.btn(type='button' onclick='button10()') 모두보기
+
+        #contentright
+          iframe(src='https://calendar.google.com/calendar/embed?showTitle=0&height=600&wkst=1&bgcolor=%23FFFFFF&src=hsnex4970%40gmail.com&color=%231B887A&ctz=Asia%2FSeoul', style='border-width:0', width='100%', height='600', frameborder='0', scrolling='no')
+
+
+
+          br
+          br
+          //
+            h3 업무일지&전달사항
+            #contentrightbottom
+              form(action='#' method='post')
+                .form-group
+                  textarea#comment.form-control(rows='5')
+                button.btn.btn-success(type='button' style='float:right') 저장
+
+  script.
+  
+    //deletelist
+    function deleteBtn(deleteBtn){
+      var getId = deleteBtn.getAttribute('id');
+      $('#panel-body'+getId).remove();
+
+      $.ajax({
+      type: "POST",
+      url: "/delete",
+      data: {Id:getId},
+      success: function(data){
+        location.href='/nexmain'
+        //alert('Deleting Success');
+
+      },
+      error: function(jqXHR, textStatus, err){
+        alert('DELETE'+err);
+        alert('There is an error! on delete!');
+      }
+      });
+    }
+
+    //revise
+    function revise(reviseBtn){
+      var getId = reviseBtn.getAttribute('id');
+
+      $.ajax({
+      type: "POST",
+      url: "/revise",
+      data: {Id:getId},
+      success: function(data){
+      location.href='/revise';
+      //alert('Revise Success');
+
+      },
+      error: function(jqXHR, textStatus, err){
+        alert('There is an error on revise!');
+      }
+      });
+
+    }
+    
+    
+    function button1(){
+      $.ajax({
+      type: "POST",
+      url: '/btn1',
+      data: {string:'준비중'},
+      success: function(data){
+      //alert('btn1 Success');
+      location.href='/btn1'
+      },
+      error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn1!');
+      }
+      });
+    }
+    
+    function button2(){
+    $.ajax({
+    type: "POST",
+    url: "/btn2",
+    data: {string:'출고준비완료'},
+    success: function(data){
+      location.href='/btn2'
+      //alert('btn2 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn2!');
+    }
+    });
+    }
+    
+    function button3(){
+    $.ajax({
+    type: "POST",
+    url: "/btn3",
+    data: {string:'납품완료'},
+    success: function(data){
+      location.href='/btn3'
+      //alert('btn3 Success');
+      },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn3!');
+    }
+    });
+    }
+    
+    function button4(){
+    $.ajax({
+    type: "POST",
+    url: "/btn4",
+    data: {string:'검사/검수요청완료'},
+    success: function(data){
+      location.href='/btn4'
+      //alert('btn4 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn4!');
+    }
+    });
+    }
+    
+    function button5(){
+    $.ajax({
+    type: "POST",
+    url: "/btn5",
+    data: {string:'세금계산서완료'},
+    success: function(data){
+      location.href='/btn5'
+      //alert('btn5 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn5!');
+    }
+    });
+    }
+    
+    function button6(){
+    $.ajax({
+    type: "POST",
+    url: "/btn6",
+    data: {string:'입금완료'},
+    success: function(data){
+      location.href='/btn6'
+      //alert('btn6 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn6!');
+    }
+    });
+    }
+    
+    function button7(){
+    $.ajax({
+    type: "POST",
+    url: "/btn7",
+    data: {string:'정산요망'},
+    success: function(data){
+      location.href='/btn7'
+      //alert('btn7 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn7!');
+    }
+    });
+    }
+    
+    function button8(){
+    $.ajax({
+    type: "POST",
+    url: "/btn8",
+    data: {string:'A/S발생'},
+    success: function(data){
+      location.href='/btn8'
+      //alert('btn8 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn8!');
+    }
+    });
+    }
+    
+
+    function button9(){
+    $.ajax({
+    type: "POST",
+    url: "/btn8",
+    data: {string:'A/완료'},
+    success: function(data){
+      location.href='/btn8'
+      //alert('btn8 Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on btn8!');
+    }
+    });
+    }
+    
+    //모두보기
+    function button10(){
+      location.href='/nexmain'
+    }
+    
+    //open excel file
+    function excel(excelBtn) {
+      
+      $.ajax({
+      type: "POST",
+      url: "/openExcel",
+      data: {path:'/Users/sekyunoh/Documents/nex/견적서/test.ods'},
+      success: function(data){
+        ///location.href='/btn8'
+        //alert('openExcel Success');
+
+      },
+      error: function(jqXHR, textStatus, err){
+        alert('There is an error! on OpenExcel!');
+      }
+      });
+      
+    }
+    
+    

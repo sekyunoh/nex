@@ -1,0 +1,117 @@
+doctype html
+html
+  head
+    meta=(charset="utf-8")
+
+    script(src='http://code.jquery.com/jquery-latest.js')
+    
+    //bootstrap
+    link(rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+
+        
+    //validate 기본
+    script(src ="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js")
+    script(src ="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js")
+    //modal
+    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    
+  body(onload='modal()')
+  
+    #myModal.modal.fade(role='dialog')
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header(style='padding:35px 50px;')
+            button.close(type='button', data-dismiss='modal') ×
+            h4
+              span.glyphicon.glyphicon-lock
+              |  Login
+          .modal-body(style='padding:40px 50px;')
+            div(class="alert alert-danger" style='display:none' id="codeAlert")
+              a(class="close" data-dismiss="alert" aria-label="close") ×
+              strong  로그인 정보가 올바르지 않습니다. 이메일과 비밀번호를 다시 한번 확인해 주세요.
+
+            form(action='/login' method='post' id='form')
+              .form-group
+                label(for='usrname')
+                  span.glyphicon.glyphicon-user
+                  |  ID
+                input.form-control(type='text', placeholder='Enter ID' name='username' autofocus)
+              .form-group
+                label(for='psw')
+                  span.glyphicon.glyphicon-eye-open
+                  |  Password
+                input.form-control(type='password', placeholder='Enter password' name='password')
+              
+              button.btn.btn-success.btn-block(type='submit')
+                span.glyphicon.glyphicon-off
+                |  Login
+          .modal-footer
+            button.btn.btn-danger.btn-default.pull-right(type='submit', data-dismiss='modal')
+              span.glyphicon.glyphicon-remove
+              |  Cancel
+                          
+script.
+
+  //validate
+  $(document).ready(function(){
+    $.validator.setDefaults({
+      errorClass: 'help-block',
+      highlight: function(element){  //validate 에러 발생했을때 highlight
+        $(element)
+          .closest('.form-group')
+          .addClass('has-error')
+      },
+      unhighlight: function(element){ //validate 에러 해결됬을때 unhighlight
+        $(element)
+          .closest('.form-group')
+          .removeClass('has-error')
+        }
+    })
+      
+    $("#form").validate({
+      rules: {
+        id: {
+          required: true
+        },
+        password : {
+          required: true,
+          minlength: 5
+        }
+      },
+      messages: {
+        id: {
+          required: "ID를 반드시 입력해 주세요.",
+          id: "올바른 ID가 아닙니다."
+        },
+        password: {
+          required: "비밀번호를 반드시 입력해 주세요.",
+          minlength: '5글자 이상 입력해주세요 '
+        }
+      },
+      submitHandler: function(form){
+        $.ajax({
+          type:'POST',
+          url: '/login',
+          data: $(form).serialize(),
+          success: function(data){
+            if(data == "fail"){
+              $('#codeAlert').css({'display':'block'})
+            }else{
+              window.location.href = '/nexmain'
+            }
+
+          }
+        })
+        return false;
+      }
+    })
+  })
+    
+  function modal(){
+    //Login
+    $(document).ready(function(){
+    $("#myModal").modal();
+    });
+  }
+  

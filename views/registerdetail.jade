@@ -39,6 +39,9 @@ html(lang='en')
       optionally if you need translation for your language then include
       locale file as mentioned below
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-lang-js/3.0.0/jquery-lang.js')
+    
+    //multi-select
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/js/jquery.multi-select.js')
 
 
 
@@ -113,7 +116,7 @@ html(lang='en')
     include ./header.jade
 
     #main
-      form(action='/registerdetail/complete' method='post')
+      form(action='/registerdetail/complete' method='post' enctype="multipart/form-data")
         .form.row(style='text-align:center')
           .form-group.col-md-4
             label 접수일자

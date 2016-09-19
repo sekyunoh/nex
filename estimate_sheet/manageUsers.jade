@@ -1,0 +1,69 @@
+doctype html
+html
+  head
+    title 회원관리
+    meta=(charset="utf-8")
+
+    script(src='http://code.jquery.com/jquery-latest.js')
+    
+    //bootstrap
+    link(rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+
+        
+    //validate 기본
+    script(src ="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js")
+    script(src ="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js")
+    //modal
+    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    style.
+      body{width:93%; margin:0 auto}
+    
+  body
+    include ./sidebar.jade
+    include ./header.jade
+    
+    
+    button.btn.btn-info(type='button' onclick='addUserBtn(this)' style='float:right') 추가
+    br
+    br
+    
+    .container
+      each val, index in results
+        .panel-group(id='panel-group'+val.id)
+          .panel.panel-default
+            .panel-heading
+              h4.panel-title
+                a(data-toggle='collapse', href='#collapse'+(index+1)) 
+                  =index+1 +'. ' +val.name
+                //  button.btn.btn-danger.btn-xs(type='button' style='float:right' id='addBtn') +
+            div(id='collapse'+(index+1) class='panel-collapse collapse')
+              .panel-body
+                button.btn.btn-danger(type='button' onclick='deleteBtn(this)' style='float:right' id = val.id) 삭제
+  
+    
+                          
+script.
+  function deleteBtn(deleteBtn){
+    var getId = deleteBtn.getAttribute('id');
+    $('#panel-group'+getId).remove();
+
+    $.ajax({
+    type: "POST",
+    url: "/deleteUsers",
+    data: {Id:getId},
+    success: function(data){
+      location.href='/manageUsers'
+      alert('Deleting Users Success');
+
+    },
+    error: function(jqXHR, textStatus, err){
+      alert('There is an error! on delete users!');
+    }
+    });
+  }
+  
+  function addUserBtn(){
+    location.href='/addUsers'
+  }
+
+  

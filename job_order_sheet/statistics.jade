@@ -1,0 +1,71 @@
+doctype html
+html(lang='en')
+  head
+    title It's nex
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    //script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+    //script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+    script(src='http://code.jquery.com/jquery-2.1.4.min.js')
+    //chart
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
+    script(type='text/javascript', src='http://canvasjs.com/assets/script/canvasjs.min.js')
+
+      
+
+    style.
+      body{width:93%; margin:0 auto}
+    
+
+
+  body
+    include ./sidebar.jade
+    include ./header.jade
+
+    #main
+      .container
+        h2 Statistics
+        form(action='/statistics/search' method='POST')
+          .form-group
+            label.control-label.col-sm-6 날짜 검색
+            label.control-label.col-sm-6 수요기관으로 검색
+          .form-group
+            .col-sm-3
+              input#fromdate.form-control(type='date', name='fromdate')
+            .col-sm-3
+              input#enddate.form-control(type='date', name='enddate')
+            .col-sm-3
+              input#demander.form-control(type='text', name='demander')
+            .col-sm-3
+              button.btn.btn-primary(type='submit') Search
+      br
+      br
+      #chart-container
+      
+  script.
+    window.onload = function () {
+    var chart = new CanvasJS.Chart("chart-container", {
+    theme: "theme2",//theme1
+    title:{
+    text: "Basic Column Chart - CanvasJS"              
+    },
+    animationEnabled: false,   // change to true
+    data: [              
+    {
+    // Change type to "bar", "area", "spline", "pie",etc.
+    type: "column",
+    dataPoints: [
+    { label: "apple",  y: 10  },
+    { label: "orange", y: 15  },
+    { label: "banana", y: 25  },
+    { label: "mango",  y: 30  },
+    { label: "grape",  y: 28  }
+    ]
+    }
+    ]
+    });
+    chart.render(); 
+    }
+
+        

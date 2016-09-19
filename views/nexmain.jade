@@ -37,10 +37,31 @@ html(lang='en')
       body{width:93%; margin:0 auto}
       #contentleft {width: 50%;float: left;}
       #contentlefttop{overflow:auto; height:490px;border: 1px solid #bcbcbc;}
-      #contentleftbottom{margin-top:10%; float:left}
+      #contentleftbottom{margin-top:0%; float:left}
 
       #contentright {width: 49.7%;float: right;}
       #contentrighttop {border: 1px solid #bcbcbc; margin:0 auto;}
+      
+      @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
+
+      .detailBox {width:320px;border:1px solid #bbb;margin:50px;}
+      .titleBox {  background-color:#fdfdfd;padding:10px;}
+      .titleBox label{color:#444;margin:0;display:inline-block;}
+
+      .commentBox {padding:10px;border-top:1px dotted #bbb;}
+      .commentBox .form-group:first-child, .actionBox .form-group:first-child {width:80%;}
+      .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {width:18%;}
+      .actionBox .form-group * {  width:100%;}
+      .taskDescription {margin-top:10px 0;}
+      .commentList {padding:0;list-style:none;max-height:200px;  overflow:auto;  }
+      .commentList li {  margin:0;margin-top:10px;}
+      .commentList li > div {display:table-cell;}
+      .commenterImage {  width:30px;margin-right:5px;height:100%;  float:left;}
+      .commenterImage img {width:100%;border-radius:50%;}
+      .commentText p {margin:0;  }
+      .sub-text {color:#aaa;font-family:verdana;font-size:11px;}
+      .actionBox {border-top:1px dotted #bbb;padding:10px;}
+      
 
   body
     include ./sidebar.jade
@@ -60,7 +81,7 @@ html(lang='en')
                     .panel-heading
                       h4.panel-title
                         a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1) style='font-size:8.5pt')
-                          =index+1 +'.'+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
+                          =index+1 +'. '+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
                     div(id='collapse'+(index+1) class='panel-collapse collapse')
                       .panel-body(id='panel-body'+val.id)
                         div(style='float:right')
@@ -74,7 +95,7 @@ html(lang='en')
                     .panel-heading
                       h4.panel-title
                         a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1) style='font-size:8.5pt')
-                          =index+1 +'.'+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
+                          =index+1 +'. '+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
                     div(id='collapse'+(index+1) class='panel-collapse collapse')
                       .panel-body(id='panel-body'+val.id)
                         div(style='float:right')
@@ -106,7 +127,48 @@ html(lang='en')
               .form-group.col-md-4
                 button.btn.btn-primary.btn(type='button' onclick='button9()') A/S완료
               .form-group.col-md-12
-                button.btn.btn-default.btn(type='button' onclick='button10()') 모두보기
+                button.btn.btn-default.btn.btn-sm(type='button' onclick='button10()') 모두보기
+                
+              if(SESSIONUSER.role == 'master')
+                //h3 직원건의사항
+                //textarea#comment.form-control(rows='5' placeholder='직원건의사항입니다' style='color:blue; font-size:20px' name='message')
+                .detailBox
+                  .titleBox
+                    label Comment Box
+                    button.close(type='button', aria-hidden='true') ×
+                  .commentBox
+                    p.taskDescription Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  .actionBox
+                    ul.commentList
+                      li
+                        .commenterImage
+                          img(src='http://placekitten.com/50/50')
+                        .commentText
+                          p Hello this is a test comment.
+                          span.date.sub-text on March 5th, 2014
+                      li
+                        .commenterImage
+                          img(src='http://placekitten.com/45/45')
+                        .commentText
+                          p
+                            | Hello this is a test comment and this comment is particularly very long and it goes on and on and on.
+                          span.date.sub-text on March 5th, 2014
+                      li
+                        .commenterImage
+                          img(src='http://placekitten.com/40/40')
+                        .commentText
+                          p Hello this is a test comment.
+                          span.date.sub-text on March 5th, 2014
+                    form.form-inline(role='form')
+                      .form-group
+                        input.form-control(type='text', placeholder='Your comments')
+                      .form-group
+                        button.btn.btn-default Add
+
+                
+              if(SESSIONUSER,role == 'user')
+                h3 전달사항
+                textarea#comment.form-control(rows='5' placeholder='전달사항입니다' style='color:blue; font-size:20px' name='message')
 
         #contentright
           iframe(src='https://calendar.google.com/calendar/embed?showTitle=0&height=600&wkst=1&bgcolor=%23FFFFFF&src=hsnex4970%40gmail.com&color=%231B887A&ctz=Asia%2FSeoul', style='border-width:0', width='100%', height='600', frameborder='0', scrolling='no')
@@ -115,13 +177,20 @@ html(lang='en')
 
           br
           br
-          //
-            h3 업무일지&전달사항
+          if(SESSIONUSER.role == 'master')
+            h3 전달사항
             #contentrightbottom
-              form(action='#' method='post')
+              form(action='/message' method='post')
                 .form-group
-                  textarea#comment.form-control(rows='5')
-                button.btn.btn-success(type='button' style='float:right') 저장
+                  textarea#comment.form-control(rows='5' placeholder='전달사항을 입력해주세요' style='color:blue; font-size:20px' name='message')
+                button.btn.btn-success(type='submit' style='float:right') 전달하기
+          if(SESSIONUSER.role == 'user')
+            h3 건의사항
+            #contentrightbottom
+              form(action='/feedback' method='post')
+                .form-group
+                  textarea#comment.form-control(rows='5' placeholder='건의사항을 입력해주세요' style='color:blue; font-size:20px' name='feedback')
+                button.btn.btn-success(type='submit' style='float:right') 건의하기
 
   script.
   
