@@ -13,6 +13,7 @@ var client = require('scp2')
 var excel = require('xlsx')
 var fs_extra = require('fs-extra')
 var multer = require('multer');
+
 /*var upload = multer({ dest: __dirname+'/download/',
                     filename: function (req, file, cb) {
                       console.log('req: ' + req + 'file: ' + file)
@@ -24,8 +25,8 @@ var storage = multer.diskStorage({
         //cb(null, __dirname + '/download/')
 
         if(file.fieldname == 'document1'){
-          //cb(null, __dirname+'/estimate_sheet/')
-          cb(null, '/home/OFFICE_HSNEX/a')  
+          cb(null, __dirname+'/estimate_sheet/')
+          //cb(null, '/home/OFFICE_HSNEX/a')
 
         }else if(file.fieldname == 'document2'){
           cb(null, __dirname+'/contract_sheet/')
@@ -46,7 +47,20 @@ var storage = multer.diskStorage({
         cb(null, file.originalname)//originalname
     }
 });
+
+var work_info_storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, __dirname + '/download/')
+
+    },
+    filename: function (req, file, cb) {
+      //console.log('req.file.filename: ' +file.originalname)
+        cb(null, file.originalname)//originalname
+    }
+});
+
 var upload = multer({ storage: storage });
+var work_info_upload = multer({storage: work_info_storage})
 
 
 
@@ -182,6 +196,13 @@ app.post(
   )
 );
 
+app.get('/dialog/:id', function(req, res){
+  dialog.showOpenDialog({ properties: [ 'openFile', 'multiSelections',function(fileNames){
+    console.log(fileNames);
+  }]});
+  //require('child_process').spawn('window', ['/Users/sekyunoh/Documents/nex/download'])
+})
+
 //로그인 화면
 app.get('/login', function(req, res){
   res.render('login');
@@ -280,8 +301,46 @@ app.get('/statistics', function(req, res){
 })
 
 app.post('/statistics/search', function(req, res){
+  var fromdate = req.body.fromdate
+  var enddate = req.body.enddate
+  var demander = req.body.demander
+
+  var fromdateArray = fromdate.split('-');
+  var enddateArray = enddate.split('-')
+  var fromdateObj = new Date(fromdateArray[0], Number(fromdateArray[1])-1, fromdateArray[2]);
+  var enddateObj = new Date(enddateArray[0], Number(enddateArray[1])-1, enddateArray[2]);
+  var betweenDay = (enddateObj.getTime() - fromdateObj.getTime())/1000/60/60/24;
+  //console.log('fromdateObj ' + fromdateObj.getTime() + ' - ' + 'enddateObj ' + enddateObj.getTime())
+
+  for(var i = 0; i <= betweenDay; i++){
+    console.log(new Date(fromdateArray[0], Number(fromdateArray[1])-1, Number(fromdateArray[2])+i))
+  }
+
+  console.log('betweenday is ' + betweenDay)
+  res.redirect('/statistics')
 
 })
+
+//날짜 차이 계산하여 날짜 형태로 리턴
+function getDiffDate(diffValue, mode) {
+    var currentDate = document.getElementById("CurrentDate").value.split('-');
+    var tempDate = new Date(currentDate[0],currentDate[1]-1,currentDate[2]);
+    switch ( mode ) {
+    case undefined:
+        tempDate.setDate(tempDate.getDate() - diffValue);            // day
+        break;
+    case "Week":
+        tempDate.setDate(tempDate.getDate() - diffValue*7);          // week
+        break;
+    case "Month":
+        tempDate.setMonth(tempDate.getMonth() - diffValue);          // month
+        break;
+    case "Year":
+        tempDate.setYear(tempDate.getYear() - diffValue);            // year
+        break;
+    }
+    return tempDate.getFullYear()+"-"+("0" + (tempDate.getMonth() + 1)).slice(-2)+"-"+("0" + tempDate.getDate()).slice(-2);
+}
 
 //openExcel
 app.post('/download/:id', function(req, res){
@@ -297,7 +356,7 @@ app.post('/download/:id', function(req, res){
 //nexmain
 app.get('/nexmain',function(req, res){
   var selectdetail_info = 'select * from input_detail';
-  //var select_message = 'select * from message'
+  var select_message = 'select * from message'
   //var select_feedback = 'select * from feedback'
 
   conn.query(selectdetail_info,function(err, rows){
@@ -305,8 +364,14 @@ app.get('/nexmain',function(req, res){
       console.log(err);
       res.status(500).send('select from input_detail error!');
     }else{
-
-      res.render('nexmain',{results:rows});
+      conn.query(select_message , function(err1, rows1){
+        if(err1){
+          console.log(err1);
+          res.status(500).send('select from message error!');
+        }else{
+          res.render('nexmain',{results:rows, message: rows1});
+        }
+      })
     }
   });
 
@@ -362,6 +427,12 @@ app.get('/Users/sekyunoh/Documents/nex/unstore_sheet/:id', function(req, res){
   res.download(Filepath)
 
 })
+//전달사항
+app.get('/Users/sekyunoh/Documents/nex/download/', function(req, res){
+  Filepath = __dirname + '/download/admin.jade'
+  res.download(Filepath)
+})
+
 app.post('/registerdetail/complete',
 upload.fields([{ name: 'document1', maxCount: 1 }, { name: 'document2', maxCount: 1 },
 { name: 'document3_list1', maxCount: 1 }, { name: 'document3_list2', maxCount: 1 },
@@ -785,8 +856,15 @@ upload.fields([{ name: 'document1', maxCount: 1 }, { name: 'document2', maxCount
   }
 });
 
-app.post('/message', function(req, res){
-  var message = req.body.message.trim()
+app.post('/message', work_info_upload.single('work_info'),function(req, res){
+  var message = ''
+  //console.log('filename is: '+req.file.filename)
+  if(req.file.filename != undefined){
+      message = req.file.filename
+  }else{
+      message = null
+  }
+
   var name = req.session.passport.user
   var date = new Date()
   var today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+'  '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
@@ -802,33 +880,6 @@ app.post('/message', function(req, res){
     }
   })
 })
-
-app.post('/feedback', function(req, res){
-  var feedback = req.body.feedback.trim()
-  var name = req.session.passport.user
-  var date = new Date()
-  var today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+'  '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
-
-  var select_message = 'select * from message'
-  var insertinto_feedback = 'insert into feedback (id, name, feedback, date) values (?,?,?,?)'
-
-  conn.query(select_message, function(err, rows){
-    if(err){
-      console.log('selection_message error' + err);
-      res.status(500).send('selection_message error')
-    }else{
-      conn.query(insertinto_feedback, [rows.insertId, name, feedback, today], function(err1, rows1){
-        if(err1){
-          console.log('insertinto_feedback error' + err1);
-          res.status(500).send('insertinto_feedback error')
-        }else{
-          res.redirect('/nexmain')
-        }
-      })
-    }
-  })
-})
-
 
 
 //출고준비완료

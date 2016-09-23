@@ -7,6 +7,7 @@ html(lang='en')
     link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
     link(rel='stylesheet', href='http://fullcalendar.io/js/fullcalendar-2.3.1/fullcalendar.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.1/fullcalendar.min.css')
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.4/css/fileinput.min.css', media='all', rel='stylesheet', type='text/css')
     //font-awesome
     link(rel='stylesheet', href='http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css')
 
@@ -29,7 +30,19 @@ html(lang='en')
     script(src ="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js")
     //googleCalendar
     script(src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.9.0/gcal.js')
+    //fileinput
 
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.3.0/js/canvas-to-blob.min.js', type='text/javascript')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/sortable/0.8.0/js/sortable.min.js', type='text/javascript')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/dompurify/0.8.3/purify.min.js', type='text/javascript')
+    // the main fileinput plugin file
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.4/js/fileinput.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', type='text/javascript')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.3.4/themes/fa/theme.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery-lang-js/3.0.0/jquery-lang.js')
+    //multi-select
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/js/jquery.multi-select.js')
+    
 
 
     style.
@@ -37,7 +50,7 @@ html(lang='en')
       body{width:93%; margin:0 auto}
       #contentleft {width: 50%;float: left;}
       #contentlefttop{overflow:auto; height:490px;border: 1px solid #bcbcbc;}
-      #contentleftbottom{margin-top:0%; float:left}
+      #contentleftbottom{margin-top:10%; float:left}
 
       #contentright {width: 49.7%;float: right;}
       #contentrighttop {border: 1px solid #bcbcbc; margin:0 auto;}
@@ -128,69 +141,28 @@ html(lang='en')
                 button.btn.btn-primary.btn(type='button' onclick='button9()') A/S완료
               .form-group.col-md-12
                 button.btn.btn-default.btn.btn-sm(type='button' onclick='button10()') 모두보기
-                
-              if(SESSIONUSER.role == 'master')
-                //h3 직원건의사항
-                //textarea#comment.form-control(rows='5' placeholder='직원건의사항입니다' style='color:blue; font-size:20px' name='message')
-                .detailBox
-                  .titleBox
-                    label Comment Box
-                    button.close(type='button', aria-hidden='true') ×
-                  .commentBox
-                    p.taskDescription Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                  .actionBox
-                    ul.commentList
-                      li
-                        .commenterImage
-                          img(src='http://placekitten.com/50/50')
-                        .commentText
-                          p Hello this is a test comment.
-                          span.date.sub-text on March 5th, 2014
-                      li
-                        .commenterImage
-                          img(src='http://placekitten.com/45/45')
-                        .commentText
-                          p
-                            | Hello this is a test comment and this comment is particularly very long and it goes on and on and on.
-                          span.date.sub-text on March 5th, 2014
-                      li
-                        .commenterImage
-                          img(src='http://placekitten.com/40/40')
-                        .commentText
-                          p Hello this is a test comment.
-                          span.date.sub-text on March 5th, 2014
-                    form.form-inline(role='form')
-                      .form-group
-                        input.form-control(type='text', placeholder='Your comments')
-                      .form-group
-                        button.btn.btn-default Add
-
-                
-              if(SESSIONUSER,role == 'user')
-                h3 전달사항
-                textarea#comment.form-control(rows='5' placeholder='전달사항입니다' style='color:blue; font-size:20px' name='message')
+        
 
         #contentright
           iframe(src='https://calendar.google.com/calendar/embed?showTitle=0&height=600&wkst=1&bgcolor=%23FFFFFF&src=hsnex4970%40gmail.com&color=%231B887A&ctz=Asia%2FSeoul', style='border-width:0', width='100%', height='600', frameborder='0', scrolling='no')
-
-
-
+          
           br
           br
           if(SESSIONUSER.role == 'master')
             h3 전달사항
             #contentrightbottom
-              form(action='/message' method='post')
-                .form-group
-                  textarea#comment.form-control(rows='5' placeholder='전달사항을 입력해주세요' style='color:blue; font-size:20px' name='message')
+              form(action='/message' method='post' enctype='multipart/form-data')
+                input#input-1.file(type='file', name='work_info')
+                br
                 button.btn.btn-success(type='submit' style='float:right') 전달하기
+                br
           if(SESSIONUSER.role == 'user')
-            h3 건의사항
+            h3 전달사항
             #contentrightbottom
-              form(action='/feedback' method='post')
-                .form-group
-                  textarea#comment.form-control(rows='5' placeholder='건의사항을 입력해주세요' style='color:blue; font-size:20px' name='feedback')
-                button.btn.btn-success(type='submit' style='float:right') 건의하기
+            br
+            label(style='color:red') 첨부파일: 
+            a(href='/Users/sekyunoh/Documents/nex/download')
+              input#input-1.file(type='text', name='work-info-for-user' value='클릭하세요' style='border:none')
 
   script.
   
