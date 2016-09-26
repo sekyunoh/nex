@@ -17,6 +17,10 @@ header
           li
             a(style='color:lightgray;')
               = SESSIONUSER.name +' 님 환영합니다!'
+          li
+            a(href='/logout')
+              span.nav-text
+                | Logout
               
   if(SESSIONUSER.role == 'master')
     nav.navbar.navbar-inverse
@@ -30,10 +34,7 @@ header
             a(href='/manageUsers') 회원관리
           li
             a(href='/statistics') 통계
-          li
-            a(href='/logout')
-              span.nav-text
-                | Logout
+          
       
 
         ul.nav.navbar-nav
