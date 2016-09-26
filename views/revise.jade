@@ -58,7 +58,7 @@ html(lang='en')
       }
       
       function whichOneChecked(){
-      $("input[id='#{results[0].process}']").prop("checked", true) ;
+      $("input[id='#{results[0].process}']").attr("checked", true) ;
       }
       
       function number_chk(obj){
@@ -188,20 +188,20 @@ html(lang='en')
             input(type='checkbox', name='box1', value='준비중', onclick='selectBox(this)' id='준비중')
             | 준비중
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)' id='출고준비완료')
+            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)' id='출고준비')
             | 출고 준비 완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='납품완료', onclick='selectBox(this)' id='납품완료')
+            input(type='checkbox', name='box1', value='납품완료', onclick='selectBox(this)' id='납품')
             | 납품완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='검사/검수요청완료', onclick='selectBox(this)' id='검사/검수요청완료')
+            input(type='checkbox', name='box1', value='검사/검수요청완료', onclick='selectBox(this)' id='검사/검수')
             | 검사/검수 요청 완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='세금계산서완료', onclick='selectBox(this)' id='세금계산서완료')
+            input(type='checkbox', name='box1', value='세금계산서완료', onclick='selectBox(this)' id='세금계산서')
             | 세금계산서 완료
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='입금완료', onclick='selectBox(this)' id='입금완료')
-            | 입금완료
+            input(style='font-weight:bold' type='checkbox', name='box1', value='입금완료(최종)', onclick='selectBox(this)' id='입금완료(최종)')
+            | 입금완료(최종)
           label.checkbox-inline
             input(type='checkbox', name='box1', value='정산요망', onclick='selectBox(this)' id='정산요망')
             | 정산요망
@@ -222,14 +222,14 @@ html(lang='en')
             input#input-1.file(type='file', name='document1', value=documents[0].document1)
             br
             label(style='color:red') 전에 선택한 파일: 
-            a(href='/Users/sekyunoh/Documents/nex/estimate_sheet/'+String(documents[0].document1))
+            a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.estimate-sheet/'+String(documents[0].document1))
               input(type='text', value=documents[0].document1, readOnly, style='border:none')
           .form-group
             label.control-label 분납요구서/계약서
             input#input-2.file(type='file', name='document2', value=documents[0].document2)
             br
             label(style='color:red') 전에 선택한 파일: 
-            a(href='/Users/sekyunoh/Documents/nex/contract_sheet/'+documents[0].document2)
+            a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.contract-sheet/'+documents[0].document2)
               input(type='text',value=documents[0].document2, readOnly, style='border:none')
           .form-group
             label.control-label 발주서
@@ -244,7 +244,7 @@ html(lang='en')
                       input.form-control(type='text' value=documents[0].document3_list1_name name='document3_list1_name' placeholder='이름을 입력해주세요')
                     input#input-3_list1.file(type='file', name='document3_list1' value=documents[0].document3_list1)
                     label(style='color:red') 전에 선택한 파일: 
-                    a(href='/Users/sekyunoh/Documents/nex/order_draft_sheet/'+documents[0].document3_list1)
+                    a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/'+documents[0].document3_list1)
                       input(type='text',value=documents[0].document3_list1, readOnly, style='border:none')
                     br
                     
@@ -252,7 +252,7 @@ html(lang='en')
                       input.form-control(type='text' value=documents[0].document3_list2_name name='document3_list2_name' placeholder='이름을 입력해주세요')
                     input#input-3_list2.file(type='file', name='document3_list2' value=documents[0].document3_list2)
                     label(style='color:red') 전에 선택한 파일: 
-                    a(href='/Users/sekyunoh/Documents/nex/order_draft_sheet/'+documents[0].document3_list2)
+                    a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/'+documents[0].document3_list2)
                       input(type='text',value=documents[0].document3_list2, readOnly, style='border:none')
                     br
                     
@@ -260,7 +260,7 @@ html(lang='en')
                       input.form-control(type='text' value=documents[0].document3_list3_name name='document3_list3_name' placeholder='이름을 입력해주세요')
                     input#input-3_list3.file(type='file', name='document3_list3' value=documents[0].document3_list3)
                     label(style='color:red') 전에 선택한 파일: 
-                    a(href='/Users/sekyunoh/Documents/nex/order_draft_sheet/'+documents[0].document3_list3)
+                    a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/'+documents[0].document3_list3)
                       input(type='text',value=documents[0].document3_list3, readOnly, style='border:none')
                     br
                     
@@ -268,7 +268,7 @@ html(lang='en')
                       input.form-control(type='text' value=documents[0].document3_list4_name name='document3_list4_name' placeholder='이름을 입력해주세요')
                     input#input-3_list4.file(type='file', name='document3_list4' value=documents[0].document3_list4)
                     label(style='color:red') 전에 선택한 파일: 
-                    a(href='/Users/sekyunoh/Documents/nex/order_draft_sheet/'+documents[0].document3_list4)
+                    a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/'+documents[0].document3_list4)
                       input(type='text',value=documents[0].document3_list4, readOnly, style='border:none')
                     br
                     
@@ -276,7 +276,7 @@ html(lang='en')
                       input.form-control(type='text' value=documents[0].document3_list5_name name='document3_list5_name' placeholder='이름을 입력해주세요')
                     input#input-3_list5.file(type='file', name='document3_list5' value=documents[0].document3_list5)
                     label(style='color:red') 전에 선택한 파일: 
-                    a(href='/Users/sekyunoh/Documents/nex/order_draft_sheet/'+documents[0].document3_list5)
+                    a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/'+documents[0].document3_list5)
                       input(type='text',value=documents[0].document3_list5, readOnly, style='border:none')
                     br
                     
@@ -284,7 +284,7 @@ html(lang='en')
                       input.form-control(type='text' value=documents[0].document3_list6_name name='document3_list6_name' placeholder='이름을 입력해주세요')
                     input#input-3_list6.file(type='file', name='document3_list6' value=documents[0].document3_list6)
                     label(style='color:red') 전에 선택한 파일: 
-                    a(href='/Users/sekyunoh/Documents/nex/order_draft_sheet/'+documents[0].document3_list6)
+                    a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/'+documents[0].document3_list6)
                       input(type='text',value=documents[0].document3_list6, readOnly, style='border:none')
                     br
                     
@@ -292,7 +292,7 @@ html(lang='en')
                       input.form-control(type='text' value=documents[0].document3_list7_name name='document3_list7_name' placeholder='이름을 입력해주세요')
                     input#input-3_list7.file(type='file', name='document3_list7' value=documents[0].document3_list7)
                     label(style='color:red') 전에 선택한 파일: 
-                    a(href='/Users/sekyunoh/Documents/nex/order_draft_sheet/'+documents[0].document3_list7)
+                    a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/'+documents[0].document3_list7)
                       input(type='text',value=documents[0].document3_list7, readOnly, style='border:none')
                     br
 
@@ -301,14 +301,14 @@ html(lang='en')
             input#input-4.file(type='file', name='document4', value=documents[0].document4)
             br
             label(style='color:red') 전에 선택한 파일: 
-            a(href='/Users/sekyunoh/Documents/nex/job_order_sheet/'+documents[0].document4)
+            a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.job-order-sheet/'+documents[0].document4)
               input(type='text',value=documents[0].document4, readOnly, style='border:none')
           .form-group
             label.control-label 출고지시서
             input#input-5.file(type='file', name='document5', value=documents[0].document5)
             br
             label(style='color:red') 전에 선택한 파일: 
-            a(href='/Users/sekyunoh/Documents/nex/unstore_sheet/'+documents[0].document5)
+            a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.unstore-sheet/'+documents[0].document5)
               input(type='text',value=documents[0].document5, readOnly, style='border:none')
 
 

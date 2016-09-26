@@ -14,31 +14,25 @@ var excel = require('xlsx')
 var fs_extra = require('fs-extra')
 var multer = require('multer');
 
-/*var upload = multer({ dest: __dirname+'/download/',
-                    filename: function (req, file, cb) {
-                      console.log('req: ' + req + 'file: ' + file)
-                    cb(null, file)
-}})*/
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        //cb(null, __dirname + '/download/')
 
         if(file.fieldname == 'document1'){
-          cb(null, __dirname+'/estimate_sheet/')
-          //cb(null, '/home/OFFICE_HSNEX/a')
+          cb(null, '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.estimate-sheet/')
+
 
         }else if(file.fieldname == 'document2'){
-          cb(null, __dirname+'/contract_sheet/')
+          cb(null, '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.contract-sheet/')
 
         }else if(file.fieldname == 'document3_list1'||file.fieldname == 'document3_list2'||file.fieldname == 'document3_list3'||file.fieldname == 'document3_list4'||file.fieldname == 'document3_list5'||file.fieldname == 'document3_list6'||file.fieldname == 'document3_list7'){
-          cb(null, __dirname+'/order_draft_sheet/')
+          cb(null, '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/')
 
         }else if(file.fieldname == 'document4'){
-          cb(null, __dirname+'/job_order_sheet/')
+          cb(null, '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.job-order-sheet/')
 
         }else if(file.fieldname == 'document5'){
-          cb(null, __dirname+'/unstore_sheet/')
+          cb(null, '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.unstore-sheet/')
 
         }
     },
@@ -50,7 +44,7 @@ var storage = multer.diskStorage({
 
 var work_info_storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, __dirname + '/download/')
+        cb(null, '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.work-info/')
 
     },
     filename: function (req, file, cb) {
@@ -77,7 +71,7 @@ app.use(session({
     host:'localhost',
     port:3306,
     user:'root',
-    password:'Dhtp12rbs.',
+   password:'Dhtp12rbs.',
     database: 'nex'
   })
 }));
@@ -87,7 +81,7 @@ var mysql = require('mysql');
 var conn = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'Dhtp12rbs.',
+ password : 'Dhtp12rbs.',
   database : 'nex'
 });
 
@@ -377,14 +371,6 @@ app.get('/nexmain',function(req, res){
 
 });
 
-app.get('/getFiles', function(req, res){
-  console.log('it comes')
-  /*fs.readdir('/Users/sekyunoh/Documents/nex/견적서/', function(err, files) {
-    if (err) return;
-    console.log('Files: ' + files);*/
-    res.render('sidebar', {Files: files})
-  //})
-})
 
 //수주대장작성
 app.get('/registerdetail', function(req, res){
@@ -392,44 +378,44 @@ app.get('/registerdetail', function(req, res){
 });
 
 //견적서
-app.get('/Users/sekyunoh/Documents/nex/estimate_sheet/:id', function(req, res){
+app.get('/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.estimate-sheet/:id', function(req, res){
 
-  Filepath = __dirname + '/estimate_sheet/' + req.params.id
+  Filepath = '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.estimate-sheet/' + req.params.id
   res.download(Filepath)
 
 })
 
 //분납요구서&계약서
-app.get('/Users/sekyunoh/Documents/nex/contract_sheet/:id', function(req, res){
+app.get('/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.contract-sheet/:id', function(req, res){
 
-  Filepath = __dirname + '/contract_sheet/' + req.params.id
+  Filepath = '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.contract-sheet/' + req.params.id
   res.download(Filepath)
 
 })
 //발주서
-app.get('/Users/sekyunoh/Documents/nex/order_draft_sheet/:id', function(req, res){
+app.get('/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/:id', function(req, res){
 
-  Filepath = __dirname + '/order_draft_sheet/' + req.params.id
+  Filepath = '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.order-draft-sheet/' + req.params.id
   res.download(Filepath)
 
 })
 //작업지시서
-app.get('/Users/sekyunoh/Documents/nex/job_order_sheet/:id', function(req, res){
+app.get('/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.job-order-sheet/:id', function(req, res){
 
-  Filepath = __dirname + '/job_order_sheet/' + req.params.id
+  Filepath = '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.job-order-sheet/' + req.params.id
   res.download(Filepath)
 
 })
 //출고지시서
-app.get('/Users/sekyunoh/Documents/nex/unstore_sheet/:id', function(req, res){
+app.get('/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.unstore-sheet/:id', function(req, res){
 
-  Filepath = __dirname + '/unstore_sheet/' + req.params.id
+  Filepath = '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.unstore-sheet/' + req.params.id
   res.download(Filepath)
 
 })
 //전달사항
-app.get('/Users/sekyunoh/Documents/nex/download/', function(req, res){
-  Filepath = __dirname + '/download/admin.jade'
+app.get('/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.work-info', function(req, res){
+  Filepath = '/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.work-info/work-info-OSH.xlsx'
   res.download(Filepath)
 })
 
@@ -857,28 +843,31 @@ upload.fields([{ name: 'document1', maxCount: 1 }, { name: 'document2', maxCount
 });
 
 app.post('/message', work_info_upload.single('work_info'),function(req, res){
-  var message = ''
-  //console.log('filename is: '+req.file.filename)
-  if(req.file.filename != undefined){
-      message = req.file.filename
-  }else{
-      message = null
-  }
 
-  var name = req.session.passport.user
-  var date = new Date()
-  var today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+'  '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
-  console.log('today: ' + today)
+  // var message = ''
+  // //console.log('filename is: '+req.file.filename)
+  // if(req.file.filename != undefined){
+  //     message = req.file.filename
+  // }else{
+  //     message = null
+  // }
+  //
+  // var name = req.session.passport.user
+  // var date = new Date()
+  // var today = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+'  '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()
+  // console.log('today: ' + today)
+  //
+  // var insertinto_message = 'insert into message (name, message, date) values (?,?,?)'
+  // conn.query(insertinto_message,[name, message, today],function(err, rows){
+  //   if(err){
+  //     console.log('insertinto_message error' + err);
+  //     res.status(500).send('insertinto_message error')
+  //   }else{
+  //     res.redirect('/nexmain')
+  //   }
+  // })
 
-  var insertinto_message = 'insert into message (name, message, date) values (?,?,?)'
-  conn.query(insertinto_message,[name, message, today],function(err, rows){
-    if(err){
-      console.log('insertinto_message error' + err);
-      res.status(500).send('insertinto_message error')
-    }else{
-      res.redirect('/nexmain')
-    }
-  })
+  res.redirect('/nexmain')
 })
 
 
@@ -1024,6 +1013,6 @@ app.get('/btn8', function(req, res){
 })
 
 
-app.listen(3000, function(){
-  console.log('The nex.js is Connected to 3000, port!');
+app.listen(3030, function(){
+  console.log('The nex.js is Connected to 3030, port!');
 });

@@ -85,6 +85,14 @@ html(lang='en')
             //     '<input id="input-3_list1" type="file" name="document3_list1" class="file"/>');
           //});
           //});
+          
+      Modernizr.load({
+      test: Modernizr.inputtypes.date,
+      nope: 'http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js',
+      callback: function() {
+      $("input[type=date]").datepicker();
+      }
+      });
 
     style.
       body{width:93%; margin:0 auto}
@@ -173,20 +181,20 @@ html(lang='en')
             input(type='checkbox', name='box1', value='준비중', onclick='selectBox(this)', checked='true')
             | 준비중
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='출고준비완료', onclick='selectBox(this)')
-            | 출고 준비 완료
+            input(type='checkbox', name='box1', value='출고준비', onclick='selectBox(this)')
+            | 출고 준비 
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='납품완료', onclick='selectBox(this)')
-            | 납품완료
+            input(type='checkbox', name='box1', value='납품', onclick='selectBox(this)')
+            | 납품
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='검사/검수요청완료', onclick='selectBox(this)')
-            | 검사/검수 요청 완료
+            input(type='checkbox', name='box1', value='검사/검수', onclick='selectBox(this)')
+            | 검사/검수
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='세금계산서완료', onclick='selectBox(this)')
-            | 세금계산서 완료
+            input(type='checkbox', name='box1', value='세금계산서', onclick='selectBox(this)')
+            | 세금계산서
           label.checkbox-inline
-            input(type='checkbox', name='box1', value='입금완료', onclick='selectBox(this)')
-            | 입금완료
+            input(style='font-weight:bold' type='checkbox', name='box1', value='입금완료(최종)', onclick='selectBox(this)')
+            | 입금완료(최종)
           label.checkbox-inline
             input(type='checkbox', name='box1', value='정산요망', onclick='selectBox(this)')
             | 정산요망

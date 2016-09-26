@@ -94,7 +94,9 @@ html(lang='en')
                     .panel-heading
                       h4.panel-title
                         a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1) style='font-size:8.5pt')
-                          =index+1 +'. '+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
+                          =index+1 +'. '+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '
+                          font(color='red')
+                           =val.process
                     div(id='collapse'+(index+1) class='panel-collapse collapse')
                       .panel-body(id='panel-body'+val.id)
                         div(style='float:right')
@@ -108,7 +110,10 @@ html(lang='en')
                     .panel-heading
                       h4.panel-title
                         a(data-toggle='collapse', data-parent='#accordion', href='#collapse'+(index+1) style='font-size:8.5pt')
-                          =index+1 +'. '+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ '+val.reference + '/ ' + val.process
+                          =index+1 +'. '+val.acceptdate + '/ ' + val.reservationway+'/ '+val.demandcompany+'/ '+val.insalesman+'/ '+val.outsalesman+'/ '+val.nameofcontract+'/ '+val.sum+'/ '+val.expectdate+'/ '+val.deliver+'/ '+val.setup + '/ ' 
+                          font(color='red' style='font-weight:bold')
+                           =val.process
+                          //+ val.process
                     div(id='collapse'+(index+1) class='panel-collapse collapse')
                       .panel-body(id='panel-body'+val.id)
                         div(style='float:right')
@@ -122,16 +127,16 @@ html(lang='en')
               .form-group.col-md-4
                 button.btn.btn-primary.btn(type='button' onclick='button1()') 준비중
               .form-group.col-md-4
-                button.btn.btn-primary.btn(type='button' onclick='button2()') 출고준비완료
+                button.btn.btn-primary.btn(type='button' onclick='button2()') 출고준비
               .form-group.col-md-4
-                button.btn.btn-primary.btn(type='button' onclick='button3()') 납품완료
+                button.btn.btn-primary.btn(type='button' onclick='button3()') 납품
             
               .form-group.col-md-4
-                button.btn.btn-primary.btn(type='button' onclick='button4()') 검사/검수요청완료
+                button.btn.btn-primary.btn(type='button' onclick='button4()') 검사/검수
               .form-group.col-md-4
-                button.btn.btn-primary.btn(type='button' onclick='button5()') 세금계산서완료
+                button.btn.btn-primary.btn(type='button' onclick='button5()') 세금계산서
               .form-group.col-md-4
-                button.btn.btn-primary.btn(type='button' onclick='button6()') 입금완료
+                button.btn.btn-primary.btn(type='button' onclick='button6()' style='font-weight:bold') 입금완료(최종)
         
               .form-group.col-md-4
                 button.btn.btn-primary.btn(type='button' onclick='button7()') 정산요망
@@ -155,13 +160,13 @@ html(lang='en')
                 input#input-1.file(type='file', name='work_info')
                 br
                 button.btn.btn-success(type='submit' style='float:right') 전달하기
-                br
+                
           if(SESSIONUSER.role == 'user')
             h3 전달사항
             #contentrightbottom
             br
             label(style='color:red') 첨부파일: 
-            a(href='/Users/sekyunoh/Documents/nex/download')
+            a(href='/home/OFFICE_HSNEX/0.HSNEX-SHARE/Pro.work-info')
               input#input-1.file(type='text', name='work-info-for-user' value='클릭하세요' style='border:none')
 
   script.
